@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    username: "lda-dima"
+    password: "Xer$##aeSd2ed32$e4"
+    url: jdbc:postgresql://localhost:5432/calori_meter
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: false
