@@ -11,19 +11,19 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class FoodService {
-    private final FoodRepository repository;
+    private final FoodRepository foodRepository;
     private final FoodMapper foodMapper;
 
     public Food findById(int id){
-        return repository.findById(id).map(
+        return foodRepository.findById(id).map(
                 foodMapper::toFood).orElse(null);
     }
 
     public List<Food> findAll(){
-        return foodMapper.toFoodList(repository.findAll());
+        return foodMapper.toFoodList(foodRepository.findAll());
     }
 
     public void addFood(Food newFood){
-        repository.save(foodMapper.toFoodEntity(newFood));
+        foodRepository.save(foodMapper.toFoodEntity(newFood));
     }
 }
