@@ -1,4 +1,4 @@
-package org.fit.linevich_shchegoleva.services.model;
+package org.fit.linevich_shchegoleva.model;
 
 import lombok.Getter;
 import org.fit.linevich_shchegoleva.domain.FoodEntity;

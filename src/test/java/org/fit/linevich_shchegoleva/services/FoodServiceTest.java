@@ -3,7 +3,7 @@ package org.fit.linevich_shchegoleva.services;
 import org.fit.linevich_shchegoleva.domain.FoodEntity;
 import org.fit.linevich_shchegoleva.mapper.FoodMapper;
 import org.fit.linevich_shchegoleva.repos.FoodRepository;
-import org.fit.linevich_shchegoleva.services.model.FoodTest;
+import org.fit.linevich_shchegoleva.model.FoodTest;
 import org.fit.linevich_shchegoleva.views.Food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
