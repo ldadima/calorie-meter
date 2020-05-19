@@ -4,7 +4,7 @@ import org.fit.linevich_shchegoleva.domain.FoodEntity;
 import org.fit.linevich_shchegoleva.mapper.FoodMapper;
 import org.fit.linevich_shchegoleva.repos.FoodRepository;
 import org.fit.linevich_shchegoleva.model.FoodTest;
-import org.fit.linevich_shchegoleva.views.Food;
+import org.fit.linevich_shchegoleva.model.Food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,6 +12,8 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -39,15 +41,13 @@ class FoodServiceTest {
         foodEntity.setCalories(100);
         foodEntity.setId(100);
         foodEntity.setName("Гречка");
-        foodEntity.setWeight(100);
         Food foodShould = new Food();
         foodShould.setCalories(100);
         foodShould.setId(100);
         foodShould.setName("Гречка");
-        foodShould.setWeight(100);
-        when(foodRepository.findAll()).thenReturn(List.of(foodEntity));
+        when(foodRepository.findAll(Pageable.unpaged())).thenReturn(new PageImpl<>(List.of(foodEntity)));
         when(foodMapper.toFoodList(List.of(foodEntity))).thenReturn(List.of(foodShould));
-        List<Food> actualFoods = foodService.findAll();
+        List<Food> actualFoods = foodService.findAll(Pageable.unpaged());
         assertEquals(List.of(foodShould), actualFoods);
     }
 

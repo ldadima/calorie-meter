@@ -2,14 +2,10 @@ package org.fit.linevich_shchegoleva.mapper;
 
 import org.fit.linevich_shchegoleva.domain.FoodEntity;
 import org.fit.linevich_shchegoleva.model.FoodTest;
-import org.fit.linevich_shchegoleva.views.Food;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.fit.linevich_shchegoleva.model.Food;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mapstruct.factory.Mappers;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 

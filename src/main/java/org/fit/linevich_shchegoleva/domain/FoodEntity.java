@@ -1,7 +1,7 @@
 package org.fit.linevich_shchegoleva.domain;
 
 import lombok.Data;
-import org.fit.linevich_shchegoleva.model.CalorieLevel;
+import org.fit.linevich_shchegoleva.model.food.CalorieLevel;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
