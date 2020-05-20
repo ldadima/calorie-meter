@@ -1,18 +1,18 @@
 package org.fit.linevich_shchegoleva.services;
 
-import org.fit.linevich_shchegoleva.model.FoodCW;
+import org.fit.linevich_shchegoleva.domain.FoodEntity;
+import org.fit.linevich_shchegoleva.model.Food;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CalorieService {
 
-    public int calculateCalories(List<FoodCW> foods){
+    public int calculateCalories(FoodEntity food, int weight){
         float calories = 0;
-        for(FoodCW food: foods){
-            calories = calories + food.getWeight() * food.getFood().getCalories()*0.01f;
+        if(food == null){
+            return 0;
         }
+        calories = calories + weight * food.getCalories()*0.01f;
         return Math.round(calories);
     }
 }

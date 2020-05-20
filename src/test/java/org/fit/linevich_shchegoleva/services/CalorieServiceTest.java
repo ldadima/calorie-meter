@@ -12,7 +12,7 @@ class CalorieServiceTest {
     @ParameterizedTest
     @EnumSource(CalculateCaloriesTest.class)
     void calculateCalories(CalculateCaloriesTest test) {
-        Integer calories = service.calculateCalories(test.getFoods());
+        Integer calories = service.calculateCalories(test.getFood(), test.getWeight());
         assertEquals(test.getCalories(), calories);
     }
 }

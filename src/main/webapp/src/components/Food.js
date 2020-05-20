@@ -59,11 +59,11 @@ export default class Food extends React.Component {
                                                   placeholder="Введите название еды"/>
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="formGridCalorie">
-                                    <Form.Label>Калории</Form.Label>
+                                    <Form.Label>Килокалории</Form.Label>
                                     <Form.Control required autoComplete="off" type="text" name="calories"
                                                   value={this.state.calories}
                                                   onChange={this.foodChange}
-                                                  placeholder="Введите количество калорий на 100 грамм"/>
+                                                  placeholder="Введите количество килокалорий на 100 грамм"/>
                                 </Form.Group>
                             </Form.Row>
                         </Card.Body>

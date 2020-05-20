@@ -4,7 +4,7 @@ import {Jumbotron} from "react-bootstrap";
 class Welcome extends React.Component {
     render() {
         return (
-            <Jumbotron>
+            <Jumbotron align = "center">
                 <h1>Добро пожаловать!</h1>
                 <p>
                     Вы зашли на сайт, который поможет вам похудеть! <br></br>Следите за использованными калориями и не дайте себе переедать. <br></br>Удачи в ваших полезных начинаниях!

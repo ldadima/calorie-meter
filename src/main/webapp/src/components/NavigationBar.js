@@ -10,8 +10,9 @@ class NavigationBar extends React.Component{
                     <img src="https://sun9-20.userapi.com/YRCLG0nl7t68DntVXrXGaBut9z4gWIRgpsrylg/1YGLOAWFMbc.jpg" width="25" height="25" alt="brand"/>              Счетчик калорий FIT-edition
                 </Link>
                 <Nav className="mr-auto">
-                    <Link to={"add"} className="nav-link">Добавить новую еду</Link>
                     <Link to={"list"} className="nav-link">Список еды</Link>
+                    <Link to={"add"} className="nav-link">Добавить новую еду</Link>
+                    <Link to={"change"} className="nav-link">Изменить данные</Link>
                 </Nav>
             </Navbar>
         );

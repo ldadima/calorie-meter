@@ -2,14 +2,11 @@ package org.fit.linevich_shchegoleva.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
+import org.fit.linevich_shchegoleva.domain.FoodEntity;
 
 @Data
 @AllArgsConstructor
 public class FoodCW {
-    @NotNull
-    private Food food;
-    @NotNull
+    private FoodEntity food;
     private Integer weight;
 }
