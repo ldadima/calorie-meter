@@ -6,7 +6,7 @@ before_script:
 package:
   stage: build
   script:
-    - ./gradlew build
+    - ./gradlew assemble
   only:
     - master
     - merge_requests

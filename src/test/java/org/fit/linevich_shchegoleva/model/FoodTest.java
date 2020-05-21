@@ -2,7 +2,6 @@ package org.fit.linevich_shchegoleva.model;
 
 import lombok.Getter;
 import org.fit.linevich_shchegoleva.domain.FoodEntity;
-import org.fit.linevich_shchegoleva.views.Food;
 
 import java.util.Optional;
 
@@ -22,13 +21,11 @@ public enum FoodTest {
                 FoodEntity foodEntity = new FoodEntity();
                 foodEntity.setId(1);
                 foodEntity.setName("1");
-                foodEntity.setWeight(1);
                 foodEntity.setCalories(1);
                 actual = Optional.of(foodEntity);
                 expected = new Food();
                 expected.setId(1);
                 expected.setName("1");
-                expected.setWeight(1);
                 expected.setCalories(1);
                 break;
             }
@@ -37,6 +34,5 @@ public enum FoodTest {
                 expected = null;
             }
         }
-        
     }
 }
