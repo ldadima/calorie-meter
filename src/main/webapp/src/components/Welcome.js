@@ -1,7 +1,7 @@
 import React from "react";
 import {Jumbotron} from "react-bootstrap";
 
-class Welcome extends React.Component {
+export default class Welcome extends React.Component {
     render() {
         return (
             <Jumbotron align = "center">
@@ -16,5 +16,3 @@ class Welcome extends React.Component {
         );
     }
 }
-
-export default Welcome;

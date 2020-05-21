@@ -18,11 +18,12 @@ export default class ChangeInfo extends React.Component {
         event.preventDefault();
 
         const info = {
+            login: localStorage.getItem('login'),
             weight: this.state.weight,
             height: this.state.height
         };
 
-        axios.post("http://localhost:8080//calorie-meter/calculate-norm", info)
+        axios.put("http://localhost:8080/user/changeInfo", info)
             .then(response => {
                 if (response.data != null) {
                     this.setState({"show":true});
