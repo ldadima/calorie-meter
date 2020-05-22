@@ -21,7 +21,7 @@ public enum Gender {
             if(code.equals(one.gender))
                 return one;
         }
-        throw new IllegalArgumentException(String.format("Error code for gender: %s", code));
+        return null;
     }
 
     @Override

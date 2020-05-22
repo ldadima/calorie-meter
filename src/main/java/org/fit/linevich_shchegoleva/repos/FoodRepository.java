@@ -8,4 +8,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface FoodRepository extends PagingAndSortingRepository<FoodEntity, Integer> {
     @Override
     Page<FoodEntity> findAll(Pageable pageable);
+
+    Page<FoodEntity> findAllByNameContainingIgnoreCase(String subName, Pageable pageable);
 }

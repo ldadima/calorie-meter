@@ -17,10 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Collection;
-import java.sql.Date;
 
 @Entity
 @Data

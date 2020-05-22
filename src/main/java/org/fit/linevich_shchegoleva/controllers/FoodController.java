@@ -36,6 +36,12 @@ public class FoodController {
         return ResponseEntity.ok(foodService.findAll(page, size));
     }
 
+    @GetMapping("/foodContainsString")
+    @ResponseBody
+    public ResponseEntity<Page<Food>> foodContainsString(int page, int size, String subName){
+        return ResponseEntity.ok(foodService.foodContainsString(page, size, subName));
+    }
+
     @PostMapping("/newFood")
     public ResponseEntity<String> addFood(@RequestBody Food newFood){
         foodService.addFood(newFood);

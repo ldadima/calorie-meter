@@ -31,4 +31,11 @@ public class FoodService {
     public void addFood(Food newFood){
         foodRepository.save(dataMapper.toFoodEntity(newFood));
     }
+
+    public Page<Food> foodContainsString(int page, int size, String subName) {
+        Page<FoodEntity> foodEntities = foodRepository.findAllByNameContainingIgnoreCase(subName,PageRequest.of(
+                page, size, Sort.by("name").ascending()
+        ));
+        return dataMapper.toFoodPage(foodEntities);
+    }
 }
