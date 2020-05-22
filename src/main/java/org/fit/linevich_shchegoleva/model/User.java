@@ -5,23 +5,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.fit.linevich_shchegoleva.model.user_info.Gender;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import javax.validation.constraints.Past;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    @NotNull
+    @NotNull(message = "Логин должен быть введен")
     private String login;
-    @NotNull
+    @NotNull(message = "Пароль должен быть введен")
     private String password;
-    @NotNull
-    private Date birthday;
-    @NotNull
+    @NotNull(message = "Дата рождения должна быть выбрана")
+    @Past(message = "Дата рождения должна быть раньше текущей")
+    private LocalDate birthday;
     private Integer age;
+    @Min(value = 1, message = "Вес должен быть больше 0")
     private Integer weight;
+    @Min(value = 1, message = "Рост должен быть больше 0")
     private Integer height;
-    @NotNull
+    @NotNull(message = "Пол должен быть выбран")
     private Gender gender;
 }

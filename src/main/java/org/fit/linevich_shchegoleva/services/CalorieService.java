@@ -1,7 +1,6 @@
 package org.fit.linevich_shchegoleva.services;
 
 import org.fit.linevich_shchegoleva.domain.FoodEntity;
-import org.fit.linevich_shchegoleva.model.Food;
 import org.springframework.stereotype.Service;
 
 @Service
