@@ -2,8 +2,22 @@ import React from "react";
 import {Card, Table, Button, InputGroup, FormControl} from "react-bootstrap";
 import axios from 'axios';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSearch, faTimes, faFastForward, faStepBackward, faStepForward, faFastBackward} from '@fortawesome/free-solid-svg-icons'
+import {
+    faSearch,
+    faTimes,
+    faFastForward,
+    faStepBackward,
+    faStepForward,
+    faFastBackward,
+    faPlusCircle
+} from '@fortawesome/free-solid-svg-icons'
 import './Style.css';
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import TextField from "@material-ui/core/TextField";
+import DialogActions from "@material-ui/core/DialogActions";
+import Dialog from "@material-ui/core/Dialog";
+import MyToast from "./MyToast";
 
 export default class FoodList extends React.Component {
 
@@ -13,7 +27,12 @@ export default class FoodList extends React.Component {
             foods: [],
             search: '',
             currentPage : 1,
-            foodsPerPage : 10
+            foodsPerPage : 10,
+            weight: '0',
+            open: false,
+            foodId: 0,
+            show: false,
+            message: ''
         };
     }
 
@@ -109,7 +128,13 @@ export default class FoodList extends React.Component {
 
     searchData = (currentPage) => {
         currentPage -= 1;
-        axios.get("http://localhost:8080//calorie-meter/allFood/search/"+this.state.search+"?page="+currentPage+"&size="+this.state.foodsPerPage)
+        if(isNaN(currentPage)) {
+            currentPage = 0;
+        }
+        if(currentPage > this.state.totalPages) {
+            currentPage = this.state.totalPages;
+        }
+        axios.get("http://localhost:8080/calorie-meter/foodContainsString?subName="+this.state.search+"&page="+currentPage+"&size="+this.state.foodsPerPage)
             .then(response => response.data)
             .then((data) => {
                 this.setState({
@@ -121,11 +146,51 @@ export default class FoodList extends React.Component {
             });
     };
 
+    addFood = () => {
+        const info = {
+            login: localStorage.getItem('login'),
+            foodId: this.state.foodId,
+            weight: this.state.weight
+        };
+        // axios.post("http://localhost:8080/addFood/", info)
+        //     .then(response => {
+        //         this.setState({
+        //             "show": true,
+        //             "message": 'Добавлено успешно'
+        //         });
+        //     })
+        //     .catch(error => {
+        //         this.setState({
+        //             "show": true,
+        //             "message": error.response.status === 400 ? error.response.data.errors[0].defaultMessage : error.response.data
+        //         });
+        //     });
+        // setTimeout(() => this.setState({"show":false}), 3000);
+    };
+
+    handleClickOpen = (foodId) =>  {
+        this.setState({"foodId": foodId,
+            "open" : true});
+    };
+
+    handleClose = () => {
+        this.setState({"foodId": 0,
+            "open" : false});
+    };
+
+    setWeight = (event) => {
+        this.setState({"weight" : event.target.value});
+    };
+
+
     render() {
         const {foods, currentPage, totalPages, search} = this.state;
 
         return (
             <div>
+                <div style={{"display": this.state.show ? "block" : "none"}} align="right">
+                    <MyToast children={{show: this.state.show, message: this.state.message}}/>
+                </div>
                 <Card>
                     <Card.Header>
                         <div style={{"float":"left"}}>
@@ -133,7 +198,7 @@ export default class FoodList extends React.Component {
                         </div>
                         <div style={{"float":"right"}}>
                             <InputGroup size="sm">
-                                <FormControl placeholder="Search" name="search" value={search}
+                                <FormControl placeholder="Поиск" name="search" value={search}
                                              onChange={this.searchChange}/>
                                 <InputGroup.Append>
                                     <Button size="sm" variant="outline-info" type="button" onClick={this.searchData}>
@@ -150,22 +215,24 @@ export default class FoodList extends React.Component {
                         <Table>
                             <thead>
                             <tr>
-                                <th align="center">Название</th>
-                                <th align="center">Килокалории (на 100 гр.)</th>
-                                <th align="center">Калорийность</th>
+                                <th></th>
+                                <th>Название</th>
+                                <th>Килокалории (на 100 гр.)</th>
+                                <th>Калорийность</th>
                             </tr>
                             </thead>
                             <tbody>
                                 {
                                     foods.length === 0 ?
                                     <tr align="center">
-                                    <td colSpan="3">Еда не найдена</td>
+                                    <td colSpan="4">Еда не найдена</td>
                                     </tr>
                                     : foods.map((food) => (
                                         <tr key={food.id}>
-                                            <td>{food.name}</td>
-                                            <td>{food.calories}</td>
-                                            <td>{food.level}</td>
+                                            <td align="center"><Button size="sm" variant="success" onClick={this.handleClickOpen.bind(this, food.id)}><FontAwesomeIcon icon={faPlusCircle} /></Button></td>
+                                            <td align="left">{food.name}</td>
+                                            <td align="left">{food.calories}</td>
+                                            <td align="left">{food.level}</td>
                                         </tr>
                                     ))
                                 }
@@ -207,6 +274,27 @@ export default class FoodList extends React.Component {
                         </Card.Footer> : null
                     }
                 </Card>
+                <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Введите вес</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            onChange={this.setWeight}
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            type="text"
+                            fullWidth
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose} color="primary">
+                            Отмена
+                        </Button>
+                        <Button onClick={this.addFood.bind(this)} color="primary">
+                            Ок
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }
