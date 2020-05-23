@@ -1,11 +1,7 @@
 package org.fit.linevich_shchegoleva.model;
 
 import lombok.Getter;
-import org.fit.linevich_shchegoleva.model.User;
 import org.fit.linevich_shchegoleva.model.user_info.Gender;
-
-import java.sql.Date;
-import java.time.LocalDate;
 
 @Getter
 public enum CalculateNormTest {

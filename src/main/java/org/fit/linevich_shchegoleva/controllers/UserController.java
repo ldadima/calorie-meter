@@ -2,15 +2,14 @@ package org.fit.linevich_shchegoleva.controllers;
 
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
+import org.fit.linevich_shchegoleva.model.ListUserFood;
 import org.fit.linevich_shchegoleva.model.User;
-import org.fit.linevich_shchegoleva.model.UserFood;
 import org.fit.linevich_shchegoleva.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -42,7 +40,7 @@ public class UserController {
     public ResponseEntity<String> addFood(String login, int foodId, int weight) {
         boolean changed = userService.addFood(login, foodId, weight);
         if (changed) {
-            return ResponseEntity.ok("Информация обновлена");
+            return ResponseEntity.ok("Еда добавлена");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Не найден пользователь или еда");
         }
@@ -89,14 +87,36 @@ public class UserController {
     }
 
     @GetMapping("/userFoods")
-    public ResponseEntity<List<UserFood>> userFoods(String login) {
-        List<UserFood> userFoods = userService.getUserFoods(login);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userFoods);
+    public ResponseEntity<ListUserFood> userFoods(int page, int size, String login) {
+        ListUserFood userFoods = userService.getUserFoods(page, size, login);
+        return ResponseEntity.ok(userFoods);
 
     }
 
     @DeleteMapping("/deleteFood")
-    public ResponseEntity<String> deleteFood( String login, int food) {
-        return ResponseEntity.ok("Huh");
+    public ResponseEntity<String> deleteFood(String login, int food) {
+        boolean changed = userService.deleteFood(login, food);
+        if (changed) {
+            return ResponseEntity.ok("Еда удалена");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Не найден пользователь или еда");
+        }
+    }
+
+    @DeleteMapping("/deleteAll")
+    public ResponseEntity<String> deleteAllFood(String login) {
+        boolean changed = userService.deleteAllFood(login);
+        if (changed) {
+            return ResponseEntity.ok("Вся еда удалена");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Не найден пользователь");
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteUser(String login) {
+        userService.deleteUser(login);
+        return ResponseEntity.ok("User удалена");
+
     }
 }

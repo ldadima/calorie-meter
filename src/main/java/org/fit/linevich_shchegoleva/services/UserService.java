@@ -4,15 +4,22 @@ import lombok.AllArgsConstructor;
 import org.fit.linevich_shchegoleva.domain.FoodEntity;
 import org.fit.linevich_shchegoleva.domain.UserEntity;
 import org.fit.linevich_shchegoleva.domain.UserFoodsEntity;
+import org.fit.linevich_shchegoleva.domain.UserFoodsPK;
 import org.fit.linevich_shchegoleva.mapper.DataMapper;
 import org.fit.linevich_shchegoleva.model.FoodCW;
+import org.fit.linevich_shchegoleva.model.ListUserFood;
 import org.fit.linevich_shchegoleva.model.User;
 import org.fit.linevich_shchegoleva.model.UserFood;
 import org.fit.linevich_shchegoleva.repos.FoodRepository;
 import org.fit.linevich_shchegoleva.repos.UserRepository;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,42 +38,42 @@ public class UserService {
     private final FoodRepository foodRepository;
 
 
-    public User findByLogin(String login){
+    public User findByLogin(String login) {
         return userRepository.findById(login).map(
                 dataMapper::toUser).orElse(null);
     }
 
-    public boolean saveUser(User user){
-        if(findByLogin(user.getLogin()) != null){
+    public boolean saveUser(User user) {
+        if (findByLogin(user.getLogin()) != null) {
             return false;
         }
         userRepository.save(dataMapper.toUserEntity(user));
         return true;
     }
 
-    public int login(String login, String password){
-        if(login == null || password == null){
+    public int login(String login, String password) {
+        if (login == null || password == null) {
             return -1;
         }
         User user = findByLogin(login);
-        if(user == null){
+        if (user == null) {
             return -1;
         }
-        if(user.getPassword().equals(password)){
+        if (user.getPassword().equals(password)) {
             return 0;
         }
         return -2;
     }
 
-    public boolean updateUser(User user){
+    public boolean updateUser(User user) {
         UserEntity userEntity = userRepository.findById(user.getLogin()).orElse(null);
-        if(userEntity == null){
+        if (userEntity == null) {
             return false;
         }
-        if(user.getWeight() != null){
+        if (user.getWeight() != null) {
             userEntity.setWeight(user.getWeight());
         }
-        if(user.getHeight() != null){
+        if (user.getHeight() != null) {
             userEntity.setHeight(user.getHeight());
         }
         userRepository.save(userEntity);
@@ -75,7 +82,7 @@ public class UserService {
 
     public Integer calculateNorm(String login) {
         User info = findByLogin(login);
-        if(info == null){
+        if (info == null) {
             return null;
         }
         int offset = 0;
@@ -94,28 +101,56 @@ public class UserService {
         return norm;
     }
 
-    public List<UserFood> getUserFoods(String login){
-        List<FoodCW> foodCWList = entityManager.createQuery("select new org.fit.linevich_shchegoleva.model.FoodCW(f, uf.weight) from UserEntity as u " +
-                "join UserFoodsEntity uf on uf.userLogin = u " +
-                " join FoodEntity as f on f = uf.food " +
-                "where u.login = :login", FoodCW.class)
+    public ListUserFood getUserFoods(int page, int size, String login) {
+        List<FoodCW> foodCWList = entityManager.createQuery(
+                "select new org.fit.linevich_shchegoleva.model.FoodCW(f, uf.weight) from UserEntity as u " +
+                        "join UserFoodsEntity uf on uf.userLogin = u " +
+                        " join FoodEntity as f on f = uf.food " +
+                        "where u.login = :login", FoodCW.class)
                 .setParameter("login", login)
                 .getResultList();
         ArrayList<UserFood> userFoods = new ArrayList<>();
-        for(FoodCW foodCW: foodCWList){
+        int allCalories = 0;
+        for (FoodCW foodCW : foodCWList) {
             int calories = calorieService.calculateCalories(foodCW.getFood(), foodCW.getWeight());
+            allCalories += calories;
             userFoods.add(dataMapper.toUserFood(foodCW, calories));
         }
-       return userFoods;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+        return new ListUserFood(new PageImpl<UserFood>(userFoods, pageable, userFoods.size()), allCalories);
     }
 
-    public boolean addFood(String login, int foodId, int weight){
+    public boolean addFood(String login, int foodId, int weight) {
         UserEntity userEntity = userRepository.findById(login).orElse(null);
         FoodEntity foodEntity = foodRepository.findById(foodId).orElse(null);
-        if(userEntity == null || foodEntity == null)
+        if (userEntity == null || foodEntity == null)
             return false;
-        userEntity.addFood(new UserFoodsEntity(userEntity, foodEntity, weight));
+        userEntity.addFood(new UserFoodsEntity(new UserFoodsPK(login, foodId), userEntity, foodEntity, weight));
         userRepository.save(userEntity);
         return true;
+    }
+
+    @Transactional
+    public boolean deleteFood(String login, int foodId) {
+        UserEntity userEntity = userRepository.findById(login).orElse(null);
+        if (userEntity == null)
+            return false;
+        userEntity.deleteFood(foodId);
+        userRepository.save(userEntity);
+        return true;
+    }
+
+    @Transactional
+    public boolean deleteAllFood(String login) {
+        UserEntity userEntity = userRepository.findById(login).orElse(null);
+        if (userEntity == null)
+            return false;
+        userEntity.deleteAllFood();
+        userRepository.save(userEntity);
+        return true;
+    }
+
+    public void deleteUser(String login) {
+        userRepository.deleteById(login);
     }
 }

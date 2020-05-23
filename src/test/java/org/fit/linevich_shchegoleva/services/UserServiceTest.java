@@ -1,18 +1,10 @@
 package org.fit.linevich_shchegoleva.services;
 
-import org.fit.linevich_shchegoleva.model.CalculateNormTest;
 import org.fit.linevich_shchegoleva.repos.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 class UserServiceTest {
 

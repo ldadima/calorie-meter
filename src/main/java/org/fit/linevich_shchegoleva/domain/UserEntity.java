@@ -63,4 +63,12 @@ public class UserEntity {
     public void addFood(UserFoodsEntity foodsEntity){
         userFoodsEntities.add(foodsEntity);
     }
+
+    public void deleteFood(int food){
+        userFoodsEntities.removeIf(foodsEntity -> foodsEntity.getFoodsPK().getFood()==food);
+    }
+
+    public void deleteAllFood(){
+        userFoodsEntities.clear();
+    }
 }

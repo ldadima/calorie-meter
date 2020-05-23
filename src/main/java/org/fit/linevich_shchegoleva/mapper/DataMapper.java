@@ -32,6 +32,7 @@ public abstract class DataMapper {
     public abstract List<User> toUserList(List<UserEntity> userEntities);
 
     @Mapping(source = "foodCW.food.name", target = "name")
+    @Mapping(source = "foodCW.food.id", target = "id")
     @Mapping(source = "foodCW.weight", target = "weight")
     @Mapping(source = "calories", target = "calories")
     public abstract UserFood toUserFood(FoodCW foodCW, int calories);

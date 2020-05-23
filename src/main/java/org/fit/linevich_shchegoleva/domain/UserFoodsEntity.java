@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
@@ -18,14 +19,16 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users_foods", schema = "public", catalog = "calori_meter")
-@IdClass(UserFoodsPK.class)
 public class UserFoodsEntity {
-    @Id
-    @ManyToOne
+    @EmbeddedId
+    private UserFoodsPK foodsPK;
+
+    @MapsId("userLogin")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_login", referencedColumnName = "login", nullable = false, insertable = false, updatable = false)
     private UserEntity userLogin;
-    @Id
-    @ManyToOne
+    @MapsId("food")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private FoodEntity food;
     @Basic

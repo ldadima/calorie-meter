@@ -2,9 +2,9 @@ package org.fit.linevich_shchegoleva.services;
 
 import org.fit.linevich_shchegoleva.domain.FoodEntity;
 import org.fit.linevich_shchegoleva.mapper.DataMapper;
-import org.fit.linevich_shchegoleva.repos.FoodRepository;
-import org.fit.linevich_shchegoleva.model.FoodTest;
 import org.fit.linevich_shchegoleva.model.Food;
+import org.fit.linevich_shchegoleva.model.FoodTest;
+import org.fit.linevich_shchegoleva.repos.FoodRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
