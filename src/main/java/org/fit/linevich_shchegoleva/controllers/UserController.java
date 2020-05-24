@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/calorie-meter/user")
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 @Api
@@ -111,12 +111,5 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Не найден пользователь");
         }
-    }
-
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteUser(String login) {
-        userService.deleteUser(login);
-        return ResponseEntity.ok("User удалена");
-
     }
 }

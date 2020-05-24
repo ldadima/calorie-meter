@@ -23,7 +23,7 @@ export default class Food extends React.Component {
             level: this.state.level
         };
 
-        axios.post("http://localhost:8080/calorie-meter/newFood", food)
+        axios.post("http://localhost:8080/calorie-meter/food/newFood", food)
             .then(response => {
                 if (response.data != null) {
                     this.setState({"show":true});

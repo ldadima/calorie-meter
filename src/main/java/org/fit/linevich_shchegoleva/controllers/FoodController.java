@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/calorie-meter")
+@RequestMapping("/calorie-meter/food")
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 @Api
 public class FoodController {
     private final FoodService foodService;
 
-    @GetMapping("/food")
+    @GetMapping("/getFood")
     @ResponseBody
     public ResponseEntity<Food> getFoodById(@RequestParam int id){
         return ResponseEntity.ok(foodService.findById(id));

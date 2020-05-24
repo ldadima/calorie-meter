@@ -34,7 +34,7 @@ export default class EatenList extends React.Component {
     }
 
     setNormalCalorie() {
-        axios.get("http://localhost:8080/user/calculateNorm?login=" + localStorage.getItem('login'))
+        axios.get("http://localhost:8080/calorie-meter/user/calculateNorm?login=" + localStorage.getItem('login'))
             .then(response => response.data)
             .then((data) => {
                 this.setState({
@@ -45,7 +45,7 @@ export default class EatenList extends React.Component {
 
     findAllFood(currentPage) {
         currentPage -= 1;
-        axios.get("http://localhost:8080/user/userFoods?page=" + currentPage + "&size=" + this.state.foodsPerPage + "&login=" + localStorage.getItem('login'))
+        axios.get("http://localhost:8080/calorie-meter/user/userFoods?page=" + currentPage + "&size=" + this.state.foodsPerPage + "&login=" + localStorage.getItem('login'))
             .then(response => response.data)
             .then((data) => {
                 this.setState({
@@ -100,7 +100,7 @@ export default class EatenList extends React.Component {
     };
 
     deleteFood = (foodId) => {
-        axios.delete("http://localhost:8080/user/deleteFood/?login=" + localStorage.getItem('login') + "&food=" + foodId)
+        axios.delete("http://localhost:8080/calorie-meter/user/deleteFood/?login=" + localStorage.getItem('login') + "&food=" + foodId)
             .then(() => {
                 this.setState({
                     "show": true,
@@ -111,7 +111,7 @@ export default class EatenList extends React.Component {
     };
 
     deleteAll = () => {
-        axios.delete("http://localhost:8080/user/deleteAll/?login=" + localStorage.getItem('login'))
+        axios.delete("http://localhost:8080/calorie-meter/user/deleteAll/?login=" + localStorage.getItem('login'))
             .then(() => {
                 this.setState({
                     "show": true,

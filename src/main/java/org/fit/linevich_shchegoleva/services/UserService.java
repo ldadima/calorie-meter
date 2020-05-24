@@ -38,7 +38,7 @@ public class UserService {
     private final FoodRepository foodRepository;
 
 
-    public User findByLogin(String login) {
+    private User findByLogin(String login) {
         return userRepository.findById(login).map(
                 dataMapper::toUser).orElse(null);
     }
@@ -148,9 +148,5 @@ public class UserService {
         userEntity.deleteAllFood();
         userRepository.save(userEntity);
         return true;
-    }
-
-    public void deleteUser(String login) {
-        userRepository.deleteById(login);
     }
 }

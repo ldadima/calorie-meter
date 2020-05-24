@@ -37,7 +37,7 @@ export default class CreateUser extends React.Component {
             height: this.state.height,
             gender: this.state.gender
         };
-        axios.post("http://localhost:8080/user/create", info)
+        axios.post("http://localhost:8080/calorie-meter/user/create", info)
             .then(response => {
                 this.setState({
                     "show": true,

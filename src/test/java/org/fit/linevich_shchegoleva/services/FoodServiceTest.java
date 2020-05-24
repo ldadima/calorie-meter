@@ -40,14 +40,8 @@ class FoodServiceTest {
 
     @Test
     void findAll() {
-        FoodEntity foodEntity = new FoodEntity();
-        foodEntity.setCalories(100);
-        foodEntity.setId(100);
-        foodEntity.setName("Гречка");
-        Food foodShould = new Food();
-        foodShould.setCalories(100);
-        foodShould.setId(100);
-        foodShould.setName("Гречка");
+        FoodEntity foodEntity = FoodTest.FOUND.getActual().get();
+        Food foodShould = FoodTest.FOUND.getExpected();
         Pageable pageable = PageRequest.of(
                 0, 20, Sort.by("name").ascending()
         );
@@ -77,6 +71,21 @@ class FoodServiceTest {
         when(dataMapper.toFoodEntity(food)).thenReturn(foodEntity);
         foodService.addFood(food);
         verify(foodRepository).save(foodEntity);
+    }
+
+    @Test
+    void foodContainsString(){
+        FoodEntity foodEntity = FoodTest.FOUND.getActual().get();
+        Food foodShould = FoodTest.FOUND.getExpected();
+        Pageable pageable = PageRequest.of(
+                0, 20, Sort.by("name").ascending()
+        );
+        Page<FoodEntity> actual = new PageImpl<>(List.of(foodEntity));
+        Page<Food> should = new PageImpl<>(List.of(foodShould));
+        when(foodRepository.findAllByNameContainingIgnoreCase("г",pageable)).thenReturn(actual);
+        when(dataMapper.toFoodPage(actual)).thenReturn(should);
+        Page<Food> actualFoods = foodService.foodContainsString(pageable.getPageNumber(),pageable.getPageSize(), "г");
+        assertEquals(should, actualFoods);
     }
 
 }

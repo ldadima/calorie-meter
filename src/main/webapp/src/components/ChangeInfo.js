@@ -23,7 +23,7 @@ export default class ChangeInfo extends React.Component {
             height: this.state.height
         };
 
-        axios.put("http://localhost:8080/user/changeInfo", info)
+        axios.put("http://localhost:8080/calorie-meter/user/changeInfo", info)
             .then(response => {
                 if (response.data != null) {
                     this.setState({"show":true});

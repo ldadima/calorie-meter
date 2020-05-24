@@ -29,7 +29,6 @@ public abstract class DataMapper {
     public abstract User toUser(UserEntity userEntity);
     @Mapping(ignore = true, target = "userFoodsEntities")
     public abstract UserEntity toUserEntity(User user);
-    public abstract List<User> toUserList(List<UserEntity> userEntities);
 
     @Mapping(source = "foodCW.food.name", target = "name")
     @Mapping(source = "foodCW.food.id", target = "id")
