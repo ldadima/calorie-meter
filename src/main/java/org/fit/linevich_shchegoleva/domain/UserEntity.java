@@ -21,6 +21,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Collection;
+import java.util.Optional;
 
 @Entity
 @Data
@@ -56,11 +57,17 @@ public class UserEntity {
         this.age = period.getYears();
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userLogin")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userLogin", orphanRemoval = true)
     @ToString.Exclude
     private Collection<UserFoodsEntity> userFoodsEntities;
 
     public void addFood(UserFoodsEntity foodsEntity){
+        for(UserFoodsEntity one: userFoodsEntities){
+            if(one.getFood().getId().equals(foodsEntity.getFood().getId())){
+                one.setWeight(one.getWeight() + foodsEntity.getWeight());
+                return;
+            }
+        }
         userFoodsEntities.add(foodsEntity);
     }
 
