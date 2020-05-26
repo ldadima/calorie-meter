@@ -106,6 +106,7 @@ export default class EatenList extends React.Component {
                     "show": true,
                     "message": 'Удалено успешно'
                 });
+                this.findAllFood(this.state.currentPage);
                 setTimeout(() => this.setState({"show": false}), 3000);
             })
     };
@@ -117,6 +118,7 @@ export default class EatenList extends React.Component {
                     "show": true,
                     "message": 'Удалено успешно'
                 });
+                this.findAllFood(this.state.currentPage);
                 setTimeout(() => this.setState({"show": false}), 3000);
             })
     }

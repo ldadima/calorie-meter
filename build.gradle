@@ -35,19 +35,14 @@ ext{
 }
 
 sonarqube {
-
     properties {
         property("sonar.projectKey", "${projectName}")
         property("sonar.host.url", "http://84.237.50.237:9000")
         property("sonar.login", "8b019792b038400cfb2a80f50f1efc621717fb9b")
-        property("sonar.exclusions", "src/main/java/org/fit/linevich_shchegoleva/domain/**," +
-                "src/main/java/org/fit/linevich_shchegoleva/model/**," +
-                "src/main/java/org/fit/linevich_shchegoleva/repos/**," +
-                "src/main/java/org/fit/linevich_shchegoleva/converter/**," +
-                "src/main/java/org/fit/linevich_shchegoleva/converter_db/**," +
-                "src/main/java/org/fit/linevich_shchegoleva/config/**," +
-                "src/main/java/org/fit/linevich_shchegoleva/*.java," +
-                "src/main/java/org/fit/linevich_shchegoleva/controllers/**")
+        property("sonar.sources", "src/main/java/org/fit/linevich_shchegoleva/services," +
+                "src/main/java/org/fit/linevich_shchegoleva/mapper")
+        property("sonar.tests", "src/test/java/org/fit/linevich_shchegoleva," +
+                "src/main/webapp/src/tests")
     }
 }
 
@@ -56,26 +51,6 @@ jacocoTestReport {
         xml.enabled true
         csv.enabled false
         html.enabled true
-    }
-    test{
-        excludes = ["org/fit/linevich_shchegoleva/domain/**",
-                            "org/fit/linevich_shchegoleva/model/**",
-                            "org/fit/linevich_shchegoleva/repos/**",
-                            "org/fit/linevich_shchegoleva/converter/**",
-                            "org/fit/linevich_shchegoleva/converter_db/**",
-                            "org/fit/linevich_shchegoleva/config/**",
-                            "org/fit/linevich_shchegoleva/controllers/**"]
-    }
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ["org/fit/linevich_shchegoleva/domain/**",
-                                        "org/fit/linevich_shchegoleva/model/**",
-                                        "org/fit/linevich_shchegoleva/repos/**",
-                                        "org/fit/linevich_shchegoleva/converter/**",
-                                        "org/fit/linevich_shchegoleva/converter_db/**",
-                                        "org/fit/linevich_shchegoleva/config/**",
-                                        "org/fit/linevich_shchegoleva/controllers/**"])
-        }))
     }
 }
 
