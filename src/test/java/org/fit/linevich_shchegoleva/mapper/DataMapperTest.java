@@ -16,8 +16,8 @@ import org.springframework.data.domain.PageImpl;
 
 import java.util.List;
 
-import static org.fit.linevich_shchegoleva.model.UserTest.getUser;
-import static org.fit.linevich_shchegoleva.model.UserTest.getUserEntity;
+import static org.fit.linevich_shchegoleva.services.UserServiceTest.getUser;
+import static org.fit.linevich_shchegoleva.services.UserServiceTest.getUserEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DataMapperTest {

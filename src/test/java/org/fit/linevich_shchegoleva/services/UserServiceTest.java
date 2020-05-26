@@ -10,7 +10,7 @@ import org.fit.linevich_shchegoleva.model.FoodTest;
 import org.fit.linevich_shchegoleva.model.ListUserFood;
 import org.fit.linevich_shchegoleva.model.User;
 import org.fit.linevich_shchegoleva.model.UserFood;
-import org.fit.linevich_shchegoleva.model.UserTest;
+import org.fit.linevich_shchegoleva.model.user_info.Gender;
 import org.fit.linevich_shchegoleva.repos.FoodRepository;
 import org.fit.linevich_shchegoleva.repos.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class UserServiceTest {
+public class UserServiceTest {
+
+    public static UserEntity getUserEntity(){
+        return new UserEntity("kek","kek",null,20,20,20, Gender.MALE, new ArrayList<>());
+    }
+
+    public static User getUser(){
+        return new User("kek","kek", null,20,20,20, Gender.MALE);
+    }
 
     @Mock
     private UserRepository userRepository;
@@ -60,8 +68,8 @@ class UserServiceTest {
 
     @Test
     void calculateNorm() {
-        UserEntity userEntity = UserTest.getUserEntity();
-        User user = UserTest.getUser();
+        UserEntity userEntity = getUserEntity();
+        User user = getUser();
         when(userRepository.findById(userEntity.getLogin())).thenReturn(Optional.of(userEntity));
         when(dataMapper.toUser(userEntity)).thenReturn(user);
         Integer norm = service.calculateNorm(userEntity.getLogin());
@@ -70,8 +78,8 @@ class UserServiceTest {
 
     @Test
     void saveUser() {
-        UserEntity userEntity = UserTest.getUserEntity();
-        User user = UserTest.getUser();
+        UserEntity userEntity = getUserEntity();
+        User user = getUser();
         when(userRepository.findById(user.getLogin())).thenReturn(Optional.of(userEntity));
         when(dataMapper.toUser(userEntity)).thenReturn(user);
         when(dataMapper.toUserEntity(user)).thenReturn(userEntity);
@@ -86,8 +94,8 @@ class UserServiceTest {
 
     @Test
     void login() {
-        UserEntity userEntity = UserTest.getUserEntity();
-        User user = UserTest.getUser();
+        UserEntity userEntity = getUserEntity();
+        User user = getUser();
         when(userRepository.findById(user.getLogin())).thenReturn(Optional.of(userEntity));
         when(dataMapper.toUser(userEntity)).thenReturn(user);
         int ret = service.login(user.getLogin(), user.getPassword());
@@ -104,8 +112,8 @@ class UserServiceTest {
 
     @Test
     void updateUser() {
-        UserEntity userEntity = UserTest.getUserEntity();
-        User user = UserTest.getUser();
+        UserEntity userEntity = getUserEntity();
+        User user = getUser();
         when(userRepository.findById(user.getLogin())).thenReturn(Optional.of(userEntity));
         when(dataMapper.toUser(userEntity)).thenReturn(user);
         user.setHeight(100);
@@ -122,7 +130,7 @@ class UserServiceTest {
     void getUserFoods(){
         FoodEntity foodEntity = FoodTest.FOUND.getActual().get();
         FoodCW foodCW = new FoodCW(foodEntity, 100);
-        String login = UserTest.getUser().getLogin();
+        String login = getUser().getLogin();
         UserFood expectedUserFood = dataMapper.toUserFood(foodCW,1000);
         when(entityManager.createQuery(
                 "select new org.fit.linevich_shchegoleva.model.FoodCW(f, uf.weight) from UserEntity as u " +
@@ -146,8 +154,8 @@ class UserServiceTest {
     @Test
     void addFood() {
         Optional<FoodEntity> foodEntity = FoodTest.FOUND.getActual();
-        UserEntity userEntity = UserTest.getUserEntity();
-        User user = UserTest.getUser();
+        UserEntity userEntity = getUserEntity();
+        User user = getUser();
         String login = user.getLogin();
         int foodId = foodEntity.get().getId();
         int weight = 100;
@@ -161,8 +169,8 @@ class UserServiceTest {
     @Test
     void deleteFood() {
         Optional<FoodEntity> foodEntity = FoodTest.FOUND.getActual();
-        UserEntity userEntity = UserTest.getUserEntity();
-        User user = UserTest.getUser();
+        UserEntity userEntity = getUserEntity();
+        User user = getUser();
         String login = user.getLogin();
         int foodId = foodEntity.get().getId();
         UserFoodsEntity userFoodsEntity = new UserFoodsEntity(new UserFoodsPK(login, foodId), userEntity, foodEntity.get(), 100);
@@ -175,8 +183,8 @@ class UserServiceTest {
 
     @Test
     void deleteAllFood() {
-        UserEntity userEntity = UserTest.getUserEntity();
-        User user = UserTest.getUser();
+        UserEntity userEntity = getUserEntity();
+        User user = getUser();
         String login = user.getLogin();
         UserFoodsEntity userFoodsEntity = new UserFoodsEntity(new UserFoodsPK(login, 1), userEntity, new FoodEntity(), 100);
         userEntity.addFood(userFoodsEntity);

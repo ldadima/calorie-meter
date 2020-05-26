@@ -10,6 +10,7 @@ import org.fit.linevich_shchegoleva.model.FoodCW;
 import org.fit.linevich_shchegoleva.model.ListUserFood;
 import org.fit.linevich_shchegoleva.model.User;
 import org.fit.linevich_shchegoleva.model.UserFood;
+import org.fit.linevich_shchegoleva.model.user_info.Gender;
 import org.fit.linevich_shchegoleva.repos.FoodRepository;
 import org.fit.linevich_shchegoleva.repos.UserRepository;
 import org.springframework.data.domain.PageImpl;
@@ -26,11 +27,11 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class UserService {
-    private final int MALE_OFFSET = 5;
-    private final int FEMALE_OFFSET = -161;
-    private final float WEIGHT_COEFFICIENT = 10;
-    private final float HEIGHT_COEFFICIENT = 6.25f;
-    private final float AGE_COEFFICIENT = 5;
+    private static final int MALE_OFFSET = 5;
+    private static final int FEMALE_OFFSET = -161;
+    private static final float WEIGHT_COEFFICIENT = 10;
+    private static final float HEIGHT_COEFFICIENT = 6.25f;
+    private static final float AGE_COEFFICIENT = 5;
     private final UserRepository userRepository;
     private final DataMapper dataMapper;
     private final EntityManager entityManager;
@@ -86,19 +87,13 @@ public class UserService {
             return null;
         }
         int offset = 0;
-        switch (info.getGender()) {
-            case MALE: {
-                offset = MALE_OFFSET;
-                break;
-            }
-            case FEMALE: {
-                offset = FEMALE_OFFSET;
-                break;
-            }
+        if (info.getGender() == Gender.MALE) {
+            offset = MALE_OFFSET;
+        } else{
+            offset = FEMALE_OFFSET;
         }
-        int norm = Math.round(WEIGHT_COEFFICIENT * info.getWeight() + HEIGHT_COEFFICIENT * info.getHeight() -
+        return Math.round(WEIGHT_COEFFICIENT * info.getWeight() + HEIGHT_COEFFICIENT * info.getHeight() -
                 AGE_COEFFICIENT * info.getAge() + offset);
-        return norm;
     }
 
     public ListUserFood getUserFoods(int page, int size, String login) {

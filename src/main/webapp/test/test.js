@@ -1,17 +1,8 @@
-
-// import {render} from '@testing-library/react';
-// import App from './App';
-
-// test('renders learn react link', () => {
-//   const { getByText } = render(<App />);
-//   const linkElement = getByText(/learn react/i);
-//   expect(linkElement).toBeInTheDocument();
-// });
 import React from 'react';
-import {describe, it, beforeAll} from 'jest';
-import App from "App";
-import LogOut from "/components/LogOut";
-import {assert} from 'chai';
+import {describe, it, beforeAll} from '@jest/globals';
+import App from "../src/App";
+import LogOut from "../src/components/LogOut";
+import assert from 'chai';
 
 import {configure} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -38,4 +29,3 @@ describe('LogOut Component', () => {
         assert.equal(localStorage.getItem('password'), null);
     });
 });
-
