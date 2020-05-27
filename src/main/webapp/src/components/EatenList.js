@@ -2,7 +2,13 @@ import React from "react";
 import {Button, Card, FormControl, InputGroup, Table} from "react-bootstrap";
 import axios from 'axios';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFastBackward, faFastForward, faStepBackward, faStepForward, faTrash} from '@fortawesome/free-solid-svg-icons'
+import {
+    faFastBackward,
+    faFastForward,
+    faStepBackward,
+    faStepForward, faTimes,
+    faTrash
+} from '@fortawesome/free-solid-svg-icons'
 import './Style.css';
 import MyToast from "./MyToast";
 
@@ -28,7 +34,7 @@ export default class EatenList extends React.Component {
     }
 
     setNormalCalorie() {
-        axios.get("http://localhost:8080/user/calculateNorm?login=" + localStorage.getItem('login'))
+        axios.get("http://localhost:8080/calorie-meter/user/calculateNorm?login=" + localStorage.getItem('login'))
             .then(response => response.data)
             .then((data) => {
                 this.setState({
@@ -39,17 +45,17 @@ export default class EatenList extends React.Component {
 
     findAllFood(currentPage) {
         currentPage -= 1;
-        // axios.get("http://localhost:8080/user/userFoods?page=" + currentPage + "&size=" + this.state.foodsPerPage)
-        //     .then(response => response.data)
-        //     .then((data) => {
-        //         this.setState({
-        //             foods: data.page.content,
-        //             currentCalorie: data.sumCalorie,
-        //             totalPages: data.page.totalPages,
-        //             totalElements: data.page.totalElements,
-        //             currentPage: data.page.number + 1
-        //         });
-        //     });
+        axios.get("http://localhost:8080/calorie-meter/user/userFoods?page=" + currentPage + "&size=" + this.state.foodsPerPage + "&login=" + localStorage.getItem('login'))
+            .then(response => response.data)
+            .then((data) => {
+                this.setState({
+                    foods: data.page.content,
+                    currentCalorie: data.calories,
+                    totalPages: data.page.totalPages,
+                    totalElements: data.page.totalElements,
+                    currentPage: data.page.number + 1
+                });
+            });
     }
 
     changePage = event => {
@@ -94,15 +100,28 @@ export default class EatenList extends React.Component {
     };
 
     deleteFood = (foodId) => {
-        axios.delete("http://localhost:8080/user/deleteFood/?login=" + localStorage.getItem('login') + "&food=" + foodId)
+        axios.delete("http://localhost:8080/calorie-meter/user/deleteFood/?login=" + localStorage.getItem('login') + "&food=" + foodId)
             .then(() => {
                 this.setState({
                     "show": true,
                     "message": 'Удалено успешно'
                 });
+                this.findAllFood(this.state.currentPage);
                 setTimeout(() => this.setState({"show": false}), 3000);
             })
     };
+
+    deleteAll = () => {
+        axios.delete("http://localhost:8080/calorie-meter/user/deleteAll/?login=" + localStorage.getItem('login'))
+            .then(() => {
+                this.setState({
+                    "show": true,
+                    "message": 'Удалено успешно'
+                });
+                this.findAllFood(this.state.currentPage);
+                setTimeout(() => this.setState({"show": false}), 3000);
+            })
+    }
 
     render() {
         const {foods, currentPage, totalPages} = this.state;
@@ -125,10 +144,10 @@ export default class EatenList extends React.Component {
                         <Table>
                             <thead>
                             <tr>
+                                <th>Название</th>
+                                <th>Вес</th>
+                                <th>Калорийность</th>
                                 <th></th>
-                                <th align="center">Название</th>
-                                <th align="center">Вес</th>
-                                <th align="center">Калорийность</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -139,17 +158,24 @@ export default class EatenList extends React.Component {
                                     </tr>
                                     : foods.map((food) => (
                                         <tr key={food.id}>
-                                            <td align="center"><Button size="sm" variant="outline-danger"
-                                                                       onClick={this.deleteFood.bind(this, food.id)}><FontAwesomeIcon
-                                                icon={faTrash}/></Button></td>
                                             <td align="left">{food.name}</td>
                                             <td align="left">{food.weight}</td>
                                             <td align="left">{food.calories}</td>
+                                            <td align="left"><Button size="sm" variant="outline-danger"
+                                                                       onClick={this.deleteFood.bind(this, food.id)}><FontAwesomeIcon
+                                                icon={faTimes}/></Button></td>
                                         </tr>
                                     ))
                             }
                             </tbody>
                         </Table>
+                        <div style={{"float": "right"}}>
+                            <Button type="button" variant="danger"
+                                            disabled={this.state.currentCalorie === 0}
+                                            onClick={this.deleteAll.bind(this)}>
+                                        <FontAwesomeIcon icon={faTrash}/> Удалить Все
+                            </Button>
+                        </div>
                     </Card.Body>
                     {
                         foods.length > 0 ?

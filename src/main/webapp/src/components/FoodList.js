@@ -1,15 +1,15 @@
 import React from "react";
-import {Card, Table, Button, InputGroup, FormControl} from "react-bootstrap";
+import {Button, Card, FormControl, InputGroup, Table} from "react-bootstrap";
 import axios from 'axios';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faSearch,
-    faTimes,
+    faFastBackward,
     faFastForward,
+    faPlusCircle,
+    faSearch,
     faStepBackward,
     faStepForward,
-    faFastBackward,
-    faPlusCircle
+    faTimes
 } from '@fortawesome/free-solid-svg-icons'
 import './Style.css';
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -42,7 +42,7 @@ export default class FoodList extends React.Component {
 
     findAllFood(currentPage) {
         currentPage -= 1;
-        axios.get("http://localhost:8080/calorie-meter/allFood?page="+currentPage+"&size="+this.state.foodsPerPage)
+        axios.get("http://localhost:8080/calorie-meter/food/allFood?page="+currentPage+"&size="+this.state.foodsPerPage)
             .then(response => response.data)
             .then((data) => {
                 this.setState({
@@ -134,7 +134,7 @@ export default class FoodList extends React.Component {
         if(currentPage > this.state.totalPages) {
             currentPage = this.state.totalPages;
         }
-        axios.get("http://localhost:8080/calorie-meter/foodContainsString?subName="+this.state.search+"&page="+currentPage+"&size="+this.state.foodsPerPage)
+        axios.get("http://localhost:8080/calorie-meter/food/foodContainsString?subName="+this.state.search+"&page="+currentPage+"&size="+this.state.foodsPerPage)
             .then(response => response.data)
             .then((data) => {
                 this.setState({
@@ -146,28 +146,6 @@ export default class FoodList extends React.Component {
             });
     };
 
-    addFood = () => {
-        const info = {
-            login: localStorage.getItem('login'),
-            foodId: this.state.foodId,
-            weight: this.state.weight
-        };
-        // axios.post("http://localhost:8080/addFood/", info)
-        //     .then(response => {
-        //         this.setState({
-        //             "show": true,
-        //             "message": 'Добавлено успешно'
-        //         });
-        //     })
-        //     .catch(error => {
-        //         this.setState({
-        //             "show": true,
-        //             "message": error.response.status === 400 ? error.response.data.errors[0].defaultMessage : error.response.data
-        //         });
-        //     });
-        // setTimeout(() => this.setState({"show":false}), 3000);
-    };
-
     handleClickOpen = (foodId) =>  {
         this.setState({"foodId": foodId,
             "open" : true});
@@ -176,6 +154,29 @@ export default class FoodList extends React.Component {
     handleClose = () => {
         this.setState({"foodId": 0,
             "open" : false});
+    };
+
+    addFood = () => {
+        const info = {
+            login: localStorage.getItem('login'),
+            foodId: this.state.foodId,
+            weight: this.state.weight
+        };
+        this.handleClose();
+        axios.post("http://localhost:8080/calorie-meter/user/addFood?login="+ info.login + "&foodId="+info.foodId+"&weight="+info.weight)
+            .then(response => {
+                this.setState({
+                    "show": true,
+                    "message": 'Добавлено успешно'
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    "show": true,
+                    "message": error.response.status === 400 ? error.response.data.errors[0].defaultMessage : error.response.data
+                });
+            });
+        setTimeout(() => this.setState({"show":false}), 3000);
     };
 
     setWeight = (event) => {
@@ -282,7 +283,8 @@ export default class FoodList extends React.Component {
                             autoFocus
                             margin="dense"
                             id="name"
-                            type="text"
+                            type="number"
+                            InputProps={{ inputProps: { min: 0} }}
                             fullWidth
                         />
                     </DialogContent>

@@ -37,7 +37,7 @@ export default class CreateUser extends React.Component {
             height: this.state.height,
             gender: this.state.gender
         };
-        axios.post("http://localhost:8080/user/create", info)
+        axios.post("http://localhost:8080/calorie-meter/user/create", info)
             .then(response => {
                 this.setState({
                     "show": true,
@@ -112,14 +112,14 @@ export default class CreateUser extends React.Component {
                                 </Form.Group>
                                 <Form.Group as={Col} md="4" controlId="formGridWeight">
                                     <Form.Label>Вес</Form.Label>
-                                    <Form.Control required autoComplete="off" type="text" name="weight"
+                                    <Form.Control required autoComplete="off" type="number" name="weight"
                                                   value={this.state.weight}
                                                   onChange={this.userChange}
                                                   placeholder="Введите вес в килограммах"/>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4" controlId="formGridHeight">
                                     <Form.Label>Рост</Form.Label>
-                                    <Form.Control required autoComplete="off" type="text" name="height"
+                                    <Form.Control required autoComplete="off" type="number" name="height"
                                                   value={this.state.height}
                                                   onChange={this.userChange}
                                                   placeholder="Введите рост в сантиметрах"/>

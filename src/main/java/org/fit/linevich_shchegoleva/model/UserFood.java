@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class UserFood {
     @NotNull
+    private int id;
+    @NotNull
     private String name;
     @NotNull
     private Integer weight;

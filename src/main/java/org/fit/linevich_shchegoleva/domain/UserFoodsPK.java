@@ -1,17 +1,17 @@
 package org.fit.linevich_shchegoleva.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Data
-class UserFoodsPK implements Serializable {
-    @Id
-    @Column(name = "user_login")
+@Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserFoodsPK implements Serializable {
     private String userLogin;
-    @Id
-    @Column(name = "food")
     private Integer food;
 }

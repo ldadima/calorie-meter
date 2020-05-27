@@ -15,6 +15,28 @@ test:
   stage: test
   script:
     - ./gradlew test
+    - ./gradlew sonarqube
   only:
     - master
     - merge_requests
+
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+  environment:
+    name: staging
+    url: https://stage.calorie-meter.fit.ru
+  only:
+    - master
+
+deploy_prod:
+  stage: deploy
+  script:
+    - echo "Deploy to production server"
+  environment:
+    name: production
+    url: https://calorie-meter.fit.ru
+  when: manual
+  only:
+    - master

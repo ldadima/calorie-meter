@@ -23,7 +23,7 @@ export default class ChangeInfo extends React.Component {
             height: this.state.height
         };
 
-        axios.put("http://localhost:8080/user/changeInfo", info)
+        axios.put("http://localhost:8080/calorie-meter/user/changeInfo", info)
             .then(response => {
                 if (response.data != null) {
                     this.setState({"show":true});
@@ -53,14 +53,14 @@ export default class ChangeInfo extends React.Component {
                             <Form.Row>
                                 <Form.Group as={Col} controlId="formGridWeight">
                                     <Form.Label>Вес</Form.Label>
-                                    <Form.Control required autoComplete="off" type="text" name="weight"
+                                    <Form.Control required autoComplete="off" type="number" name="weight"
                                                   value={this.state.weight}
                                                   onChange={this.infoChange}
                                                   placeholder="Введите свой вес"/>
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="formGridHeight">
                                     <Form.Label>Рост</Form.Label>
-                                    <Form.Control required autoComplete="off" type="text" name="height"
+                                    <Form.Control required autoComplete="off" type="number" name="height"
                                                   value={this.state.height}
                                                   onChange={this.infoChange}
                                                   placeholder="Введите свой рост"/>

@@ -30,7 +30,7 @@ export default class LogIn extends Component {
             password: this.state.password
         }
 
-        axios.post("http://localhost:8080/user/login", info)
+        axios.post("http://localhost:8080/calorie-meter/user/login", info)
             .then(response => {
                 this.setState({
                     "show": true,

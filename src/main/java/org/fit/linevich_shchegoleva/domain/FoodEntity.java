@@ -56,7 +56,7 @@ public class FoodEntity {
         }
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "food")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "food", orphanRemoval = true)
     @ToString.Exclude
     private Collection<UserFoodsEntity> userFoodsEntities;
 }
