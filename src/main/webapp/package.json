@@ -3,6 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-cli": "^6.26.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "enzyme-to-json": "^3.4.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
@@ -29,7 +38,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "coverage": "npx jest --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,10 +57,15 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.10.0",
+    "@babel/node": "^7.8.7",
+    "@babel/plugin-transform-modules-commonjs": "^7.9.6",
     "chai": "^4.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "jest": "24.9.0",
-    "mocha": "^7.2.0"
+    "jest-sonar-reporter": "^2.0.0",
+    "mocha": "^7.1.2",
+    "mocha-sonarqube-reporter": "^1.0.1"
   }
 }

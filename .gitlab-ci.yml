@@ -1,4 +1,4 @@
-image: gradle:jdk11
+image: naveenkrsh/gradle-nodejs-12-jdk-11:v0.3
 
 before_script:
   - chmod +x ./gradlew
@@ -10,33 +10,42 @@ package:
   only:
     - master
     - merge_requests
+  except:
+    variables:
+      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "front-development"
 
-test:
+test-back:
   stage: test
   script:
     - ./gradlew test
+  only:
+    - master
+    - merge_requests
+  except:
+    variables:
+      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "front-development"
+
+test-front:
+  stage: test
+  script:
+    - cd src/main/webapp
+    - npm install
+    - npx jest --coverage
+    - cd ../../..
     - ./gradlew sonarqube
   only:
     - master
     - merge_requests
+  except:
+    variables:
+      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "development"
 
-deploy_staging:
-  stage: deploy
-  script:
-    - echo "Deploy to staging server"
-  environment:
-    name: staging
-    url: https://stage.calorie-meter.fit.ru
-  only:
-    - master
-
-deploy_prod:
-  stage: deploy
-  script:
-    - echo "Deploy to production server"
-  environment:
-    name: production
-    url: https://calorie-meter.fit.ru
-  when: manual
-  only:
-    - master
+#deploy:
+#  variables:
+#    USERNAME: dlinevich
+#    PASSWORD: KLmiE=Sc)6%csVn
+#    REPOSITORY: calorie-meter
+#  stage: deploy
+#  script:
+#    - curl -u $USERNAME:$PASSWORD -X "DELETE" https://cloud.docker.com/v2/repositories/$USERNAME/$REPOSITORY/tags/back/
+#    - curl -u $USERNAME:$PASSWORD -X "DELETE" https://cloud.docker.com/v2/repositories/$USERNAME/$REPOSITORY/tags/front/

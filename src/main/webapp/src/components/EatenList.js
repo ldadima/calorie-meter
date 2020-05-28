@@ -9,7 +9,6 @@ import {
     faStepForward, faTimes,
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
-import './Style.css';
 import MyToast from "./MyToast";
 
 export default class EatenList extends React.Component {
@@ -125,7 +124,6 @@ export default class EatenList extends React.Component {
 
     render() {
         const {foods, currentPage, totalPages} = this.state;
-
         return (
             <div>
                 <div style={{"display": this.state.show ? "block" : "none"}} align="right">
