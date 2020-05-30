@@ -31,6 +31,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -74,6 +75,14 @@ public class UserServiceTest {
         when(dataMapper.toUser(userEntity)).thenReturn(user);
         Integer norm = service.calculateNorm(userEntity.getLogin());
         assertEquals(230, norm);
+        user.setGender(Gender.FEMALE);
+        when(dataMapper.toUser(userEntity)).thenReturn(user);
+        norm = service.calculateNorm(userEntity.getLogin());
+        assertEquals(64, norm);
+        when(userRepository.findById(userEntity.getLogin())).thenReturn(Optional.empty());
+        when(dataMapper.toUser(null)).thenReturn(null);
+        norm = service.calculateNorm(userEntity.getLogin());
+        assertNull(norm);
     }
 
     @Test
@@ -108,6 +117,9 @@ public class UserServiceTest {
         user.setLogin(null);
         ret = service.login(user.getLogin(), user.getPassword());
         assertEquals(-1, ret);
+        user.setPassword(null);
+        ret = service.login(user.getLogin(), user.getPassword());
+        assertEquals(-1, ret);
     }
 
     @Test
@@ -123,6 +135,9 @@ public class UserServiceTest {
         assertEquals(100, userEntity.getHeight());
         assertEquals(100, userEntity.getWeight());
         when(userRepository.findById(user.getLogin())).thenReturn(Optional.empty());
+        assertFalse(service.updateUser(user));
+        user.setHeight(null);
+        user.setWeight(null);
         assertFalse(service.updateUser(user));
     }
 
@@ -159,9 +174,17 @@ public class UserServiceTest {
         String login = user.getLogin();
         int foodId = foodEntity.get().getId();
         int weight = 100;
-        UserFoodsEntity userFoodsEntity = new UserFoodsEntity(new UserFoodsPK(login, foodId), userEntity, foodEntity.get(), weight);
         when(userRepository.findById(user.getLogin())).thenReturn(Optional.of(userEntity));
         when(foodRepository.findById(foodEntity.get().getId())).thenReturn(foodEntity);
+        service.addFood(login,foodId,weight);
+        verify(userRepository).save(userEntity);
+        when(foodRepository.findById(foodEntity.get().getId())).thenReturn(Optional.empty());
+        service.addFood(login,foodId,weight);
+        verify(userRepository).save(userEntity);
+        when(userRepository.findById(user.getLogin())).thenReturn(Optional.empty());
+        service.addFood(login,foodId,weight);
+        verify(userRepository).save(userEntity);
+        when(userRepository.findById(user.getLogin())).thenReturn(Optional.of(userEntity));
         service.addFood(login,foodId,weight);
         verify(userRepository).save(userEntity);
     }
@@ -176,9 +199,11 @@ public class UserServiceTest {
         UserFoodsEntity userFoodsEntity = new UserFoodsEntity(new UserFoodsPK(login, foodId), userEntity, foodEntity.get(), 100);
         userEntity.addFood(userFoodsEntity);
         when(userRepository.findById(user.getLogin())).thenReturn(Optional.of(userEntity));
-        service.deleteFood(login,foodId);
+        assertTrue(service.deleteFood(login,foodId));
         assertTrue(userEntity.getUserFoodsEntities().isEmpty());
         verify(userRepository).save(userEntity);
+        when(userRepository.findById(user.getLogin())).thenReturn(Optional.empty());
+        assertFalse(service.deleteFood(login,foodId));
     }
 
     @Test
@@ -189,8 +214,10 @@ public class UserServiceTest {
         UserFoodsEntity userFoodsEntity = new UserFoodsEntity(new UserFoodsPK(login, 1), userEntity, new FoodEntity(), 100);
         userEntity.addFood(userFoodsEntity);
         when(userRepository.findById(user.getLogin())).thenReturn(Optional.of(userEntity));
-        service.deleteAllFood(login);
+        assertTrue(service.deleteAllFood(login));
         assertTrue(userEntity.getUserFoodsEntities().isEmpty());
         verify(userRepository).save(userEntity);
+        when(userRepository.findById(user.getLogin())).thenReturn(Optional.empty());
+        assertFalse(service.deleteAllFood(login));
     }
 }

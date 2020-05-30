@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './App.css';
 import NavigationBar from "./components/NavigationBar";
 import Welcome from "./components/Welcome";
 import {Col, Container, Row} from 'react-bootstrap';

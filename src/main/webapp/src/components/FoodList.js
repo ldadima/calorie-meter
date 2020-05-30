@@ -11,7 +11,6 @@ import {
     faStepForward,
     faTimes
 } from '@fortawesome/free-solid-svg-icons'
-import './Style.css';
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";

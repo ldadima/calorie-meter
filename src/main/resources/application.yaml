@@ -1,10 +1,28 @@
 spring:
+  profiles:
+    active:
+      - ${PROFILE_APP:local}
   datasource:
-    username: "lda-dima"
-    password: "Xer$##aeSd2ed32$e4"
-    url: jdbc:postgresql://localhost:5432/calori_meter
     driver-class-name: org.postgresql.Driver
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+---
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:postgresql://localhost:5432/calori_meter
+    username: lda-dima
+    password: Xer$##aeSd2ed32$e4
+---
+spring:
+  profiles: server
+  datasource:
+    url: jdbc:postgresql://cm-db:5432/postgres
+    username: fit
+    password: 20caloriefit18
+

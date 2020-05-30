@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/calorie-meter/food")
 @AllArgsConstructor
@@ -43,8 +45,12 @@ public class FoodController {
     }
 
     @PostMapping("/newFood")
-    public ResponseEntity<String> addFood(@RequestBody Food newFood){
-        foodService.addFood(newFood);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Successful adding food");
+    public ResponseEntity<String> addFood(@RequestBody @Valid Food newFood){
+        boolean answer = foodService.addFood(newFood);
+        if (answer) {
+            return ResponseEntity.status(HttpStatus.CREATED).body("Successful adding food");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Такая еда уже существует");
+        }
     }
 }

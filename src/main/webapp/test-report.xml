@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="D:\My\UPPRPO\CaloriesMeter\src\main\webapp\src\tests\App.test.js">
+    <testCase name="Food Component show" duration="10"/>
+    <testCase name="Food Component name" duration="2"/>
+    <testCase name="Food Component calories" duration="2"/>
+    <testCase name="Food Component level" duration="1"/>
+    <testCase name="Food Component Button" duration="18"/>
+    <testCase name="Food Component Form" duration="39"/>
+    <testCase name="FoodList Component foods" duration="7"/>
+    <testCase name="FoodList Component currentPage" duration="3"/>
+    <testCase name="FoodList Component foodsPerPage" duration="3"/>
+    <testCase name="FoodList Component show" duration="4"/>
+    <testCase name="FoodList Component message" duration="5"/>
+    <testCase name="FoodList Component foodId" duration="3"/>
+    <testCase name="FoodList Component weight" duration="6"/>
+    <testCase name="FoodList Component search" duration="31"/>
+    <testCase name="FoodList Component open" duration="3"/>
+    <testCase name="FoodList Component first and prev page" duration="19"/>
+    <testCase name="FoodList Component changePage" duration="17"/>
+    <testCase name="FoodList Component last and next page" duration="29"/>
+    <testCase name="FoodList Component open" duration="10"/>
+    <testCase name="FoodList Component close" duration="5"/>
+    <testCase name="Components AuthNavBar" duration="5"/>
+    <testCase name="Components NavigationBar" duration="2"/>
+    <testCase name="Components Welcome" duration="3"/>
+  </file>
+</testExecutions>

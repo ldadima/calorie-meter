@@ -8,6 +8,7 @@ export default class Food extends React.Component {
         super(props);
         this.state = this.initialState;
         this.state.show = false;
+        this.state.message = false;
         this.submitFood = this.submitFood.bind(this);
         this.foodChange = this.foodChange.bind(this);
     }
@@ -25,14 +26,18 @@ export default class Food extends React.Component {
 
         axios.post("http://localhost:8080/calorie-meter/food/newFood", food)
             .then(response => {
-                if (response.data != null) {
-                    this.setState({"show":true});
-                    setTimeout(() => this.setState({"show":false}), 3000);
-                } else {
-                    this.setState({"show":false});
-                }
+                this.setState({
+                    "show": true,
+                    "message": 'Добавлено успешно'
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    "show": true,
+                    "message": error.response.status === 400 ? error.response.data.errors[0].defaultMessage : error.response.data
+                });
             });
-
+        setTimeout(() => this.setState({"show":false}), 3000);
         this.setState(this.initialState);
     }
 
@@ -44,7 +49,7 @@ export default class Food extends React.Component {
         return (
             <div>
                 <div style={{"display":this.state.show ? "block" : "none"}} align="right">
-                    <MyToast children = {{show:this.state.show, message:"Добавлено в базу данных"}}/>
+                    <MyToast children = {{show:this.state.show, message:this.state.message}}/>
                 </div>
                 <Card>
                     <Card.Header>Добавить еду</Card.Header>

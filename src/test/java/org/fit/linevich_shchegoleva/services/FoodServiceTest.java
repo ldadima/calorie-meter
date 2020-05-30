@@ -19,8 +19,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -68,9 +71,13 @@ class FoodServiceTest {
     void addFood(){
         Food food = FoodTest.FOUND.getExpected();
         FoodEntity foodEntity = FoodTest.FOUND.getActual().get();
+        when(foodRepository.findByNameAndCalories(food.getName(), food.getCalories())).thenReturn(Optional.empty());
         when(dataMapper.toFoodEntity(food)).thenReturn(foodEntity);
-        foodService.addFood(food);
+        assertTrue(foodService.addFood(food));
         verify(foodRepository).save(foodEntity);
+        when(foodRepository.findByNameAndCalories(food.getName(), food.getCalories())).thenReturn(Optional.of(foodEntity));
+        when(dataMapper.toFoodEntity(food)).thenReturn(foodEntity);
+        assertFalse(foodService.addFood(food));
     }
 
     @Test

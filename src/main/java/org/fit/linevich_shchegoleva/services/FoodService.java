@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class FoodService {
@@ -28,8 +30,13 @@ public class FoodService {
         return dataMapper.toFoodPage(foodEntities);
     }
 
-    public void addFood(Food newFood){
+    public boolean addFood(Food newFood){
+        Optional<FoodEntity> foodEntity = foodRepository.findByNameAndCalories(newFood.getName(), newFood.getCalories());
+        if(foodEntity.isPresent()){
+            return false;
+        }
         foodRepository.save(dataMapper.toFoodEntity(newFood));
+        return true;
     }
 
     public Page<Food> foodContainsString(int page, int size, String subName) {

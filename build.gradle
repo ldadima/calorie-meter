@@ -40,9 +40,17 @@ sonarqube {
         property("sonar.host.url", "http://84.237.50.237:9000")
         property("sonar.login", "8b019792b038400cfb2a80f50f1efc621717fb9b")
         property("sonar.sources", "src/main/java/org/fit/linevich_shchegoleva/services," +
-                "src/main/java/org/fit/linevich_shchegoleva/mapper")
+                "src/main/java/org/fit/linevich_shchegoleva/mapper," +
+                "src/main/webapp/src/components/AuthNavBar.js," +
+                "src/main/webapp/src/components/FoodList.js," +
+                "src/main/webapp/src/components/Food.js," +
+                "src/main/webapp/src/components/Footer.js," +
+                "src/main/webapp/src/components/NavigationBar.js," +
+                "src/main/webapp/src/components/Welcome.js")
         property("sonar.tests", "src/test/java/org/fit/linevich_shchegoleva," +
                 "src/main/webapp/src/tests")
+        property("sonar.javascript.lcov.reportPaths", "src/main/webapp/coverage/lcov.info")
+        property("sonar.testExecutionReportPaths", "src/main/webapp/test-report.xml")
     }
 }
 
@@ -69,6 +77,7 @@ repositories {
 
 
 dependencies {
+    compile group: 'org.flywaydb', name: 'flyway-core', version: '6.4.3'
     compileOnly 'org.sonarsource.sonarqube:sonar-plugin-api:8.0'
     testCompile 'org.sonarsource.sonarqube:sonar-plugin-api:8.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
