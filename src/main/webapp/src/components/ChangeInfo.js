@@ -56,6 +56,7 @@ export default class ChangeInfo extends React.Component {
                                     <Form.Control required autoComplete="off" type="number" name="weight"
                                                   value={this.state.weight}
                                                   onChange={this.infoChange}
+                                                  min="0"
                                                   placeholder="Введите свой вес"/>
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="formGridHeight">
@@ -63,6 +64,7 @@ export default class ChangeInfo extends React.Component {
                                     <Form.Control required autoComplete="off" type="number" name="height"
                                                   value={this.state.height}
                                                   onChange={this.infoChange}
+                                                  min="0"
                                                   placeholder="Введите свой рост"/>
                                 </Form.Group>
                             </Form.Row>

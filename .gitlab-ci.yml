@@ -40,12 +40,18 @@ test-front:
     variables:
       - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "development"
 
-#deploy:
-#  variables:
-#    USERNAME: dlinevich
-#    PASSWORD: KLmiE=Sc)6%csVn
-#    REPOSITORY: calorie-meter
-#  stage: deploy
-#  script:
-#    - curl -u $USERNAME:$PASSWORD -X "DELETE" https://cloud.docker.com/v2/repositories/$USERNAME/$REPOSITORY/tags/back/
-#    - curl -u $USERNAME:$PASSWORD -X "DELETE" https://cloud.docker.com/v2/repositories/$USERNAME/$REPOSITORY/tags/front/
+deploy:
+  variables:
+    USERNAME: dlinevich
+    PASSWORD: KLmiE=Sc)6%csVn
+    REPOSITORY: calorie-meter
+  stage: deploy
+  script:
+    - docker-compose build
+    - docker login -u $USERNAME -p $PASSWORD
+    - docker tag caloriesmeter_back $USERNAME/$REPOSITORY:back
+    - docker push $USERNAME/$REPOSITORY:back
+    - docker tag caloriesmeter_front $USERNAME/$REPOSITORY:front
+    - docker push $USERNAME/$REPOSITORY:front
+  only:
+    - master
