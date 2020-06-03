@@ -115,6 +115,7 @@ export default class CreateUser extends React.Component {
                                     <Form.Control required autoComplete="off" type="number" name="weight"
                                                   value={this.state.weight}
                                                   onChange={this.userChange}
+                                                  min="0"
                                                   placeholder="Введите вес в килограммах"/>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4" controlId="formGridHeight">
@@ -122,6 +123,7 @@ export default class CreateUser extends React.Component {
                                     <Form.Control required autoComplete="off" type="number" name="height"
                                                   value={this.state.height}
                                                   onChange={this.userChange}
+                                                  min="0"
                                                   placeholder="Введите рост в сантиметрах"/>
                                 </Form.Group>
                             </Form.Row>

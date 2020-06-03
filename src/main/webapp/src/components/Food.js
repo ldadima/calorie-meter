@@ -68,6 +68,7 @@ export default class Food extends React.Component {
                                     <Form.Control required autoComplete="off" type="number" name="calories"
                                                   value={this.state.calories}
                                                   onChange={this.foodChange}
+                                                  min="0"
                                                   placeholder="Введите количество килокалорий на 100 грамм"/>
                                 </Form.Group>
                             </Form.Row>
