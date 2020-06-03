@@ -55,7 +55,8 @@ deploy:
     REPOSITORY: calorie-meter
   stage: deploy
   script:
-    - docker-compose build
+    - docker build -t caloriesmeter_back -f docker/Dockerfile .
+    - docker build -t caloriesmeter_front -f docker/front/Dockerfile .
     - docker login -u $USERNAME -p $PASSWORD
     - docker tag caloriesmeter_back $USERNAME/$REPOSITORY:back
     - docker push $USERNAME/$REPOSITORY:back
