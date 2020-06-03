@@ -1,4 +1,4 @@
-image: naveenkrsh/gradle-nodejs-12-jdk-11:v0.3
+image: dlinevich/gradle-nodejs-12-jdk-11-docker-19-03-8-dockercompose-1-26
 
 before_script:
   - chmod +x ./gradlew
