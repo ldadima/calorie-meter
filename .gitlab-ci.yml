@@ -33,7 +33,6 @@ test-front:
     - npx jest --coverage
     - cd ../../..
     - ./gradlew sonarqube
-    - ls
   only:
     - master
     - merge_requests
@@ -51,7 +50,7 @@ deploy:
     REPOSITORY: calorie-meter
   stage: deploy
   script:
-    - ls
+    - ./gradlew bootJar
     - docker build -t caloriesmeter_back -f docker/Dockerfile .
     - docker build -t caloriesmeter_front -f docker/front/Dockerfile .
     - docker login -u $USERNAME -p $PASSWORD
