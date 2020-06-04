@@ -34,13 +34,12 @@ export default class App extends Component {
             login: login,
             password: password
         }
-        axios.post("http://" + (process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost")   + ":8080/calorie-meter/user/login", info)
+        axios.post("http://" + (process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost") + ":8080/calorie-meter/user/login", info)
             .then((response) => {
                 this.setState({
                     userLoggedIn: response.data
                 });
             })
-
         return this.state.userLoggedIn;
     }
 

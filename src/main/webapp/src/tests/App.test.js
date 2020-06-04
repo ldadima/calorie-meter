@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import AuthNavBar from "../components/AuthNavBar";
 import NavigationBar from "../components/NavigationBar";
 import Welcome from "../components/Welcome";
+import userEvent from "@testing-library/user-event";
 
 configure({adapter: new Adapter()});
 
@@ -36,6 +37,11 @@ describe('Food Component', () => {
         const wrapper = shallow(<Food/>);
         wrapper.find('Form').simulate('submit', { preventDefault () {} });
         expect(wrapper.find('Form').length).toBe(1);
+    });
+    it('Change Food', () => {
+        const wrapper = shallow(<Food/>);
+        wrapper.instance().foodChange({target: {name: "name", value: "Test"}})
+        expect(wrapper.instance().state.name).toBe("Test");
     });
 });
 
@@ -96,12 +102,21 @@ describe('FoodList Component', () => {
         wrapper.instance().prevPage();
         expect(wrapper.find('Button').length).toBe(4);
     });
-    it('changePage', () => {
+    it('Change Page', () => {
         const wrapper = shallow(<FoodList/>);
-        wrapper.find('FormControl').simulate('change', { target: {value : 1}});
-        expect(wrapper.instance().state.currentPage).toEqual(1);
-        wrapper.find('FormControl').simulate('change', { target: {value : NaN}});
-        expect(wrapper.instance().state.currentPage).toEqual(1);
+        wrapper.instance().setState({'totalPages': 2});
+        wrapper.instance().changePage({target: {name: "currentPage", value: 1}});
+        expect(wrapper.instance().state.currentPage).toBe(1);
+        wrapper.instance().changePage({target: {name: "currentPage", value: NaN}});
+        expect(wrapper.instance().state.currentPage).toBe(1);
+        wrapper.instance().setState({'search': 'Test'});
+        wrapper.instance().changePage({target: {name: "currentPage", value: 10}});
+        expect(wrapper.instance().state.currentPage).toBe(2);
+    });
+    it('Set Weight', () => {
+        const wrapper = shallow(<FoodList/>);
+        wrapper.instance().setWeight({target: {value: 100}});
+        expect(wrapper.instance().state.weight).toBe(100);
     });
     it('last and next page', () => {
         const wrapper = shallow(<FoodList/>);

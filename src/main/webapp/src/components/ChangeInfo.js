@@ -16,13 +16,11 @@ export default class ChangeInfo extends React.Component {
 
     submitInfo(event) {
         event.preventDefault();
-
         const info = {
             login: localStorage.getItem('login'),
             weight: this.state.weight,
             height: this.state.height
         };
-
         axios.put("http://" + (process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost") + ":8080/calorie-meter/user/changeInfo", info)
             .then(response => {
                 if (response.data != null) {

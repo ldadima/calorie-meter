@@ -41,7 +41,7 @@ export default class FoodList extends React.Component {
 
     findAllFood(currentPage) {
         currentPage -= 1;
-        axios.get("http://" + ((process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost"))   + ":8080/calorie-meter/food/allFood?page="+currentPage+"&size="+this.state.foodsPerPage)
+        axios.get("http://" + (process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost") + ":8080/calorie-meter/food/allFood?page="+currentPage+"&size="+this.state.foodsPerPage)
             .then(response => response.data)
             .then((data) => {
                 this.setState({
@@ -133,7 +133,7 @@ export default class FoodList extends React.Component {
         if(currentPage > this.state.totalPages) {
             currentPage = this.state.totalPages;
         }
-        axios.get("http://" + (process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost")   + ":8080/calorie-meter/food/foodContainsString?subName="+this.state.search+"&page="+currentPage+"&size="+this.state.foodsPerPage)
+        axios.get("http://" + (process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost") + ":8080/calorie-meter/food/foodContainsString?subName="+this.state.search+"&page="+currentPage+"&size="+this.state.foodsPerPage)
             .then(response => response.data)
             .then((data) => {
                 this.setState({
