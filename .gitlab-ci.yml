@@ -3,45 +3,45 @@ image: naveenkrsh/gradle-nodejs-12-jdk-11:v0.3
 before_script:
   - chmod +x ./gradlew
 
-package:
-  stage: build
-  script:
-    - ./gradlew assemble
-  only:
-    - master
-    - merge_requests
-  except:
-    variables:
-      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "front-development"
-
-test-back:
-  stage: test
-  script:
-    - ./gradlew test
-  only:
-    - master
-    - merge_requests
-  except:
-    variables:
-      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "front-development"
-
-test-front:
-  stage: test
-  script:
-    - cd src/main/webapp
-    - npm install
-    - npx jest --coverage
-    - cd ../../..
-    - ./gradlew sonarqube
-  only:
-    - master
-    - merge_requests
-  except:
-    variables:
-      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "development"
+#package:
+#  stage: build
+#  script:
+#    - ./gradlew assemble
+#  only:
+#    - master
+#    - merge_requests
+#  except:
+#    variables:
+#      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "front-development"
+#
+#test-back:
+#  stage: test
+#  script:
+#    - ./gradlew test
+#  only:
+#    - master
+#    - merge_requests
+#  except:
+#    variables:
+#      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "front-development"
+#
+#test-front:
+#  stage: test
+#  script:
+#    - cd src/main/webapp
+#    - npm install
+#    - npx jest --coverage
+#    - cd ../../..
+#    - ./gradlew sonarqube
+#  only:
+#    - master
+#    - merge_requests
+#  except:
+#    variables:
+#      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "development"
 
 deploy:
-  image: skyr/gradle-docker
+  image: mwpatrick/gradle-docker:5.6.4-jdk11
   services:
     - docker:dind
   variables:
