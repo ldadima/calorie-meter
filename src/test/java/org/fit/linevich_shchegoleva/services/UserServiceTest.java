@@ -39,11 +39,11 @@ import static org.mockito.Mockito.when;
 public class UserServiceTest {
 
     public static UserEntity getUserEntity(){
-        return new UserEntity("kek","kek",null,20,20,20, Gender.MALE, new ArrayList<>());
+        return new UserEntity("test","test",null,20,20,20, Gender.MALE, new ArrayList<>());
     }
 
     public static User getUser(){
-        return new User("kek","kek", null,20,20,20, Gender.MALE);
+        return new User("test","test", null,20,20,20, Gender.MALE);
     }
 
     @Mock
@@ -109,7 +109,7 @@ public class UserServiceTest {
         when(dataMapper.toUser(userEntity)).thenReturn(user);
         int ret = service.login(user.getLogin(), user.getPassword());
         assertEquals(0, ret);
-        ret = service.login(user.getLogin(), "ke");
+        ret = service.login(user.getLogin(), "no");
         assertEquals(-2, ret);
         when(dataMapper.toUser(userEntity)).thenReturn(null);
         ret = service.login(user.getLogin(), user.getPassword());
@@ -118,6 +118,9 @@ public class UserServiceTest {
         ret = service.login(user.getLogin(), user.getPassword());
         assertEquals(-1, ret);
         user.setPassword(null);
+        ret = service.login(user.getLogin(), user.getPassword());
+        assertEquals(-1, ret);
+        user.setLogin("test");
         ret = service.login(user.getLogin(), user.getPassword());
         assertEquals(-1, ret);
     }
@@ -136,9 +139,10 @@ public class UserServiceTest {
         assertEquals(100, userEntity.getWeight());
         when(userRepository.findById(user.getLogin())).thenReturn(Optional.empty());
         assertFalse(service.updateUser(user));
+        when(userRepository.findById(user.getLogin())).thenReturn(Optional.of(userEntity));
         user.setHeight(null);
         user.setWeight(null);
-        assertFalse(service.updateUser(user));
+        assertTrue(service.updateUser(user));
     }
 
     @Test

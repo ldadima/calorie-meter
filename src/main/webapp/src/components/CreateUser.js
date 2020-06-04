@@ -37,7 +37,7 @@ export default class CreateUser extends React.Component {
             height: this.state.height,
             gender: this.state.gender
         };
-        axios.post("http://" + (process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost")   + ":8080/calorie-meter/user/create", info)
+        axios.post("http://" + (process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost") + ":8080/calorie-meter/user/create", info)
             .then(response => {
                 this.setState({
                     "show": true,
@@ -45,7 +45,7 @@ export default class CreateUser extends React.Component {
                 });
                 localStorage.setItem('login', info.login);
                 localStorage.setItem('password', info.password);
-                window.location.assign("http://" + (process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost")   + ":3000/")
+                window.location.assign("http://" + (process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost") + ":3000/")
             })
             .catch(error => {
                 this.setState({
