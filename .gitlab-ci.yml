@@ -34,6 +34,7 @@ test-front:
     - npx jest --coverage
     - cd ../../..
     - ./gradlew sonarqube
+    - ls
   only:
     - master
     - merge_requests
@@ -42,19 +43,16 @@ test-front:
       - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "development"
 
 deploy:
-  image:
-    name: docker/compose:latest
-    entrypoint: ["/bin/sh", "-c"]
+  image: docker:latest
   services:
     - docker:dind
   variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
     USERNAME: dlinevich
     PASSWORD: KLmiE=Sc)6%csVn
     REPOSITORY: calorie-meter
   stage: deploy
   script:
+    - ls
     - docker build -t caloriesmeter_back -f docker/Dockerfile .
     - docker build -t caloriesmeter_front -f docker/front/Dockerfile .
     - docker login -u $USERNAME -p $PASSWORD
