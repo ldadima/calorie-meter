@@ -41,7 +41,7 @@ test-front:
       - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "development"
 
 deploy:
-  image: docker:latest
+  image: skyr/gradle-docker
   services:
     - docker:dind
   variables:
