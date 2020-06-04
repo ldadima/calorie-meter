@@ -13,7 +13,7 @@ export default class LogOut extends React.Component {
     handleClick() {
         localStorage.setItem('login', null);
         localStorage.setItem('password', null);
-        window.location.assign("http://localhost:3000/login")
+        window.location.assign("http://" + (process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost")   + ":3000/login")
     }
 
     render() {
