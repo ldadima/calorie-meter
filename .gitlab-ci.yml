@@ -42,7 +42,7 @@ package:
 #      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "development"
 
 deploy:
-  image:
+  image: docker:latest
   services:
     - docker:dind
   dependencies:
