@@ -21,7 +21,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/calorie-meter/user")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${front-url}")
 @Api
 public class UserController {
     private final UserService userService;

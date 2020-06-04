@@ -24,7 +24,7 @@ export default class Food extends React.Component {
             level: this.state.level
         };
 
-        axios.post("http://localhost:8080/calorie-meter/food/newFood", food)
+        axios.post("http://" + (process.env.NODE_ENV === "production" ? "10.170.0.2" : "localhost")   + ":8080/calorie-meter/food/newFood", food)
             .then(response => {
                 this.setState({
                     "show": true,

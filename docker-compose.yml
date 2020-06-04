@@ -21,6 +21,7 @@ services:
     restart: always
     environment:
       PROFILE_APP: server
+      IP_HOST: 10.170.0.2
     ports:
       - 8080:8080
 
@@ -31,6 +32,7 @@ services:
       context: .
       dockerfile: docker/front/Dockerfile
     restart: always
+    environment:
     ports:
     - 3000:3000
 
