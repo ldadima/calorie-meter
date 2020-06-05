@@ -6,6 +6,6 @@ EXPOSE 3000
 WORKDIR /usr/web
 
 COPY ./src/main/webapp ./
+RUN npm install
 
-CMD ["npm", "run", "build"]
-
+CMD ["npm", "start"]

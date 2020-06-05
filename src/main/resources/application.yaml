@@ -20,7 +20,7 @@ spring:
     username: lda-dima
     password: Xer$##aeSd2ed32$e4
 ---
-front-url: http://10.170.0.2:3000
+front-url: http://35.220.211.12:3000
 spring:
   profiles: server
   datasource:
