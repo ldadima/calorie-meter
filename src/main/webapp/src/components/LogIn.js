@@ -30,7 +30,7 @@ export default class LogIn extends Component {
             password: this.state.password
         }
 
-        axios.post("http://35.220.211.12:8080/calorie-meter/user/login", info)
+        axios.post("http://localhost:8080/calorie-meter/user/login", info)
             .then(response => {
                 this.setState({
                     "show": true,
@@ -38,7 +38,7 @@ export default class LogIn extends Component {
                 });
                 localStorage.setItem('login', info.login);
                 localStorage.setItem('password', info.password);
-                window.location.assign("http://35.220.211.12:3000/")
+                window.location.assign("http://localhost:3000/")
             })
             .catch(error => {
                 this.setState({

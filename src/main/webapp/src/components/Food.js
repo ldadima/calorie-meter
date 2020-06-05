@@ -7,8 +7,10 @@ export default class Food extends React.Component {
     constructor(props) {
         super(props);
         this.state = this.initialState;
-        this.state.show = false;
-        this.state.message = false;
+        this.state = {
+            message: '',
+            show: false
+        };
         this.submitFood = this.submitFood.bind(this);
         this.foodChange = this.foodChange.bind(this);
     }
@@ -24,7 +26,7 @@ export default class Food extends React.Component {
             level: this.state.level
         };
 
-        axios.post("http://35.220.211.12:8080/calorie-meter/food/newFood", food)
+        axios.post("http://localhost:8080/calorie-meter/food/newFood", food)
             .then(response => {
                 this.setState({
                     "show": true,

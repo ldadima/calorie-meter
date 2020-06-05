@@ -41,7 +41,7 @@ export default class FoodList extends React.Component {
 
     findAllFood(currentPage) {
         currentPage -= 1;
-        axios.get("http://35.220.211.12:8080/calorie-meter/food/allFood?page="+currentPage+"&size="+this.state.foodsPerPage)
+        axios.get("http://localhost:8080/calorie-meter/food/allFood?page="+currentPage+"&size="+this.state.foodsPerPage)
             .then(response => response.data)
             .then((data) => {
                 this.setState({
@@ -133,7 +133,7 @@ export default class FoodList extends React.Component {
         if(currentPage > this.state.totalPages) {
             currentPage = this.state.totalPages;
         }
-        axios.get("http://35.220.211.12:8080/calorie-meter/food/foodContainsString?subName="+this.state.search+"&page="+currentPage+"&size="+this.state.foodsPerPage)
+        axios.get("http://localhost:8080/calorie-meter/food/foodContainsString?subName="+this.state.search+"&page="+currentPage+"&size="+this.state.foodsPerPage)
             .then(response => response.data)
             .then((data) => {
                 this.setState({
@@ -162,7 +162,7 @@ export default class FoodList extends React.Component {
             weight: this.state.weight
         };
         this.handleClose();
-        axios.post("http://35.220.211.12:8080/calorie-meter/user/addFood?login="+ info.login + "&foodId="+info.foodId+"&weight="+info.weight)
+        axios.post("http://localhost:8080/calorie-meter/user/addFood?login="+ info.login + "&foodId="+info.foodId+"&weight="+info.weight)
             .then(response => {
                 this.setState({
                     "show": true,
