@@ -17,35 +17,38 @@ package:
   except:
     variables:
       - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "front-development"
-
-test-back:
-  stage: test
-  script:
-    - ./gradlew test
-  only:
-    - master
-    - merge_requests
-  except:
-    variables:
-      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "front-development"
-
-test-front:
-  stage: test
-  script:
-    - cd src/main/webapp
-    - npm install
-    - npx jest --coverage
-    - cd ../../..
-    - ./gradlew sonarqube
-  only:
-    - master
-    - merge_requests
-  except:
-    variables:
-      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "development"
+#
+#test-back:
+#  stage: test
+#  script:
+#    - ./gradlew test
+#  only:
+#    - master
+#    - merge_requests
+#  except:
+#    variables:
+#      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "front-development"
+#
+#test-front:
+#  stage: test
+#  script:
+#    - cd src/main/webapp
+#    - npm install
+#    - npx jest --coverage
+#    - cd ../../..
+#    - ./gradlew sonarqube
+#  only:
+#    - master
+#    - merge_requests
+#  except:
+#    variables:
+#      - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "development"
 
 deploy:
   image: docker:latest
+  before_script:
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
   services:
     - docker:dind
   dependencies:
@@ -64,5 +67,6 @@ deploy:
     - docker push $USERNAME/$REPOSITORY:back
     - docker tag caloriesmeter_front $USERNAME/$REPOSITORY:front
     - docker push $USERNAME/$REPOSITORY:front
+    - ssh d_linevich@35.220.211.12 && docker-compose down --rmi all && docker-compose up
   only:
     - master
