@@ -69,8 +69,7 @@ deploy:
     - docker push $USERNAME/$REPOSITORY:back
     - docker tag caloriesmeter_front $USERNAME/$REPOSITORY:front
     - docker push $USERNAME/$REPOSITORY:front
-    - docker run --rm -it ictu/sshpass -p $REPOSITORY ssh -o StrictHostKeyChecking=no root@35.220.211.12
-    - ls
-    - exit
+    - docker run --rm ictu/sshpass -p calorie-meter ssh -o StrictHostKeyChecking=no root@35.220.211.12 exec 'docker-compose -f /home/d_linevich/app/docker-compose.yml down --rmi all'
+    - docker run --rm ictu/sshpass -p calorie-meter ssh -o StrictHostKeyChecking=no root@35.220.211.12 exec 'docker-compose -f /home/d_linevich/app/docker-compose.yml up -d'
   only:
     - master
