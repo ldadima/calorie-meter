@@ -12,10 +12,10 @@ export default class MyToast extends Component{
         };
 
         return (
-            <div style={toastCss}>
-                <Toast className={"border border-info bg-info text-white"} show={this.props.children.show}>
+            <div style={this.props.show ? toastCss : null}>
+                <Toast className={"border border-info bg-info text-white"} show={this.props.show}>
                     <Toast.Body>
-                        {this.props.children.message}
+                        {this.props.message}
                     </Toast.Body>
                 </Toast>
             </div>
