@@ -7,7 +7,6 @@ import Footer from "../components/Footer";
 import AuthNavBar from "../components/AuthNavBar";
 import NavigationBar from "../components/NavigationBar";
 import Welcome from "../components/Welcome";
-import userEvent from "@testing-library/user-event";
 
 configure({adapter: new Adapter()});
 
