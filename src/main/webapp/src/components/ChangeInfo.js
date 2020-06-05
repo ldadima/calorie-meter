@@ -42,7 +42,7 @@ export default class ChangeInfo extends React.Component {
         return (
             <div>
                 <div style={{"display":this.state.show ? "block" : "none"}} align="right">
-                    <MyToast children = {{show:this.state.show, message:"Данные изменены"}}/>
+                    <MyToast show={this.state.show} message={"Данные изменены"}/>
                 </div>
                 <Card>
                     <Card.Header>Изменить данные</Card.Header>

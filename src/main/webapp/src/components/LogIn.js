@@ -54,7 +54,7 @@ export default class LogIn extends Component {
         return (
             <div>
                 <div style={{"display": this.state.show ? "block" : "none"}} align="right">
-                    <MyToast children={{show: this.state.show, message: this.state.message}}/>
+                    <MyToast show={this.state.show} message={this.state.message}/>
                 </div>
                 <Card>
                     <Card.Header>Войти</Card.Header>

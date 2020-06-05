@@ -76,8 +76,8 @@ export default class CreateUser extends React.Component {
     render() {
         return (
             <div>
-                <div style={{"display":this.state.show ? "block" : "none"}} align="right">
-                    <MyToast children = {{show:this.state.show, message:this.state.message}}/>
+                <div style={{"display": this.state.show ? "block" : "none"}} align="right">
+                    <MyToast show={this.state.show} message={this.state.message}/>
                 </div>
                 <Card>
                     <Card.Header>Создать аккаунт</Card.Header>

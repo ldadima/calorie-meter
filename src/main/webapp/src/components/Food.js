@@ -48,8 +48,8 @@ export default class Food extends React.Component {
     render() {
         return (
             <div>
-                <div style={{"display":this.state.show ? "block" : "none"}} align="right">
-                    <MyToast children = {{show:this.state.show, message:this.state.message}}/>
+                <div style={{"display": this.state.show ? "block" : "none"}} align="right">
+                    <MyToast show={this.state.show} message={this.state.message}/>
                 </div>
                 <Card>
                     <Card.Header>Добавить еду</Card.Header>
