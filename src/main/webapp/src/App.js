@@ -34,7 +34,7 @@ export default class App extends Component {
             login: login,
             password: password
         }
-        axios.post("http://localhost:8080/calorie-meter/user/login", info)
+        axios.post("http://35.220.211.12:8080/calorie-meter/user/login", info)
             .then((response) => {
                 this.setState({
                     userLoggedIn: response.data

@@ -7,10 +7,8 @@ export default class Food extends React.Component {
     constructor(props) {
         super(props);
         this.state = this.initialState;
-        this.state = {
-            message: '',
-            show: false
-        };
+        this.state.show = false;
+        this.state.message = '';
         this.submitFood = this.submitFood.bind(this);
         this.foodChange = this.foodChange.bind(this);
     }
