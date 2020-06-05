@@ -3,6 +3,13 @@ image: naveenkrsh/gradle-nodejs-12-jdk-11:v0.3
 before_script:
   - chmod +x ./gradlew
 
+stages:
+  - build
+  - test
+  - deploy
+  - server
+
+
 package:
   stage: build
   script:
@@ -45,13 +52,6 @@ package:
 
 deploy:
   image: docker:latest
-  before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - mkdir -p ~/.ssh
-    - eval $(ssh-agent -s)
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh-add <(echo '$STAGING_PRIVATE_KEY')
-    - ssh gitlab-fit@35.220.211.12 && exit
   services:
     - docker:dind
   dependencies:
@@ -69,6 +69,8 @@ deploy:
     - docker push $USERNAME/$REPOSITORY:back
     - docker tag caloriesmeter_front $USERNAME/$REPOSITORY:front
     - docker push $USERNAME/$REPOSITORY:front
-    - ssh gitlab-fit@35.220.211.12 && cd app/ && docker-compose down --rmi all && docker-compose up
+    - docker run --rm -it ictu/sshpass -p $REPOSITORY ssh -o StrictHostKeyChecking=no root@35.220.211.12
+    - ls
+    - exit
   only:
     - master
