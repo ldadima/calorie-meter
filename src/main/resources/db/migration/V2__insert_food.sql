@@ -48,3 +48,5 @@ INSERT INTO public.food (id, name, calories) VALUES (24, 'Картошка фр�
 DO NOTHING;
 INSERT INTO public.food (id, name, calories) VALUES (25, 'Семечки соленые', 573) ON CONFLICT ON CONSTRAINT food_pk 
 DO NOTHING;
+
+alter sequence food_id_seq restart with 26;
