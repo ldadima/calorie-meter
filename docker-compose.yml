@@ -1,0 +1,36 @@
+version: "3"
+
+volumes:
+  cm-data:
+
+services:
+  db:
+    container_name: cm-db
+    image: postgres
+    environment:
+      POSTGRES_USER: fit
+      POSTGRES_PASSWORD: 20caloriefit18
+    volumes:
+      - "cm-data:/var/lib/postgresql/data"
+
+  back:
+    container_name: cm-back
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    restart: always
+    environment:
+      PROFILE_APP: server
+    ports:
+      - 8080:8080
+
+  front:
+    tty: true
+    container_name: cm-front
+    build:
+      context: .
+      dockerfile: docker/front/Dockerfile
+    restart: always
+    ports:
+    - 3000:3000
+

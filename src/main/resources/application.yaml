@@ -1,0 +1,31 @@
+spring:
+  profiles:
+    active:
+      - ${PROFILE_APP:local}
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+---
+front-url: http://localhost:3000
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:postgresql://localhost:5432/calori_meter
+    username: lda-dima
+    password: Xer$##aeSd2ed32$e4
+---
+#front-url: http://35.220.211.12:3000 (server ip on Google Cloud Platform)
+front-url: http://localhost:3000
+spring:
+  profiles: server
+  datasource:
+    url: jdbc:postgresql://cm-db:5432/postgres
+    username: fit
+    password: 20caloriefit18
+
