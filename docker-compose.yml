@@ -8,8 +8,8 @@ services:
     container_name: cm-db
     image: postgres
     environment:
-      POSTGRES_USER: fit
-      POSTGRES_PASSWORD: 20caloriefit18
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
       - "cm-data:/var/lib/postgresql/data"
 

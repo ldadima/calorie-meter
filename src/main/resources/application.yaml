@@ -16,9 +16,10 @@ front-url: http://localhost:3000
 spring:
   profiles: local
   datasource:
-    url: jdbc:postgresql://localhost:5432/calori_meter
-    username: lda-dima
-    password: Xer$##aeSd2ed32$e4
+#    url: jdbc:postgresql://localhost:5432/calori_meter
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
 ---
 front-url: http://35.220.211.12:3000
 spring:
